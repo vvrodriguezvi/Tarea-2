@@ -223,4 +223,6 @@ kable(tabla[ ,c(1, 2, 4)]) %>%
 
 De la tabla se observa que el modelo tres con distribución lognormal es el que cuenta con menor BIC, pero en el otro criterio es el segundo modelo con menor AIC, entonces, por el criterio de parsimonia se escoge el modelo tres con distribución lognormal ya que cuenta con pocos parámetros y las diferencias de los criterios entre los modelos no es muy grande. 
 
+. 
+
 

@@ -199,3 +199,30 @@ summary(result3_logl)
 
 - Solo la variable **age** es significativa para ajustar el modelo de regresión usando la distribución loglogistic.
 
+Evaluando los modelos con el criterio AIC y BIC
+
+```{r}
+criterioAIC <- AIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
+
+criterioBIC <- BIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
+```
+
+
+```{r}
+library(kableExtra)
+
+criterioAIC
+
+criterioBIC
+
+tabla <- cbind(criterioAIC, criterioBIC)
+
+kable(tabla[ ,c(1, 2, 4)]) %>%
+  kable_styling(full_width = F)
+```
+
+De la tabla se observa que el modelo tres con distribución lognormal es el que cuenta con menor BIC, pero en el otro criterio es el segundo modelo con menor AIC, entonces, por el criterio de parsimonia se escoge el modelo tres con distribución lognormal ya que cuenta con pocos parámetros y las diferencias de los criterios entre los modelos no es muy grande. 
+
+. 
+
+
