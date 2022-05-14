@@ -136,13 +136,13 @@ summary(result1_logn)
 
 ```
 
+- Unicamente las variables age y rx son significativa. Ajusto un modelo con esto:
 
 ```{r, echo=FALSE}
 
-result1_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist="lognormal",data=base)
-summary(result1_logn)
+result2_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist="lognormal",data=base)
+summary(result2_logn)
 
 ```
 
-- Unicamente las variables age y rx son significativa. Ajusto un modelo con esto:
 

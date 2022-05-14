@@ -1,6 +1,6 @@
 "0",""
-"0","result1_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist=""lognormal"",data=base)"
-"0","summary(result1_logn)"
+"0","result2_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist=""lognormal"",data=base)"
+"0","summary(result2_logn)"
 "1","
 Call:
 "

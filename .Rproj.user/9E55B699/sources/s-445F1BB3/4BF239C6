@@ -3,7 +3,7 @@
     "path": "C:/Users/vvrod/OneDrive/Escritorio/UNAL-VANESSA/AnalisisDeSupervivencia/Tarea2/Tarea-2/Tarea2.Rmd",
     "project_path": "Tarea2.Rmd",
     "type": "r_markdown",
-    "hash": "2064990209",
+    "hash": "4013198163",
     "contents": "",
     "dirty": false,
     "created": 1652542901506.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "141,42",
+        "cursorPosition": "143,15",
         "scrollLine": "137",
         "last_setup_crc32": "445F1BB3f9e7f627"
     },
     "folds": "",
-    "lastKnownWriteTime": 1652543164,
+    "lastKnownWriteTime": 1652543256,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1652543164908,
+    "last_content_update": 1652543256107,
     "read_only": false,
     "read_only_alternatives": []
 }
