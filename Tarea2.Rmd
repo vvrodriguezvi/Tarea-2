@@ -15,8 +15,6 @@ library("cowplot")
 
 base <- read.csv("ovarian.csv")
 
-base$fustat <- as.factor(base$fustat)
-
 base$resid.ds <- as.factor(base$resid.ds)
 
 base$ecog.ps <- as.factor(base$ecog.ps)
@@ -95,13 +93,33 @@ plot_grid(g5, g6)
 
 \section{1. }
 
-**Ajuste al menos tres modelos param ́etricos de lafamilia AFT y seleccione uno de ellos de acuerdo a algun criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribucíon, seleccione las variables estad́ısticamente important de acuerdo a su valor-p. Una vez seleccione un modelo,evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.**
+**Ajuste al menos tres modelos param ́etricos de lafamilia AFT y seleccione uno de ellos de acuerdo a algun criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribucíon, seleccione las variables estad́ısticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo,evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.**
 
 
 \subsection{a. Todas las covariables}
 
-```{r, echo = FALSE}
+Se ajusta un primer modelo con todas las covariables 
 
+```{r}
+#Modelo con todas las variables
+result1 <- survreg(Surv(futime, fustat) ~ age + resid.ds + rx + ecog.ps, dist = "exponential", data = base) 
 
+summary(result1)
 ```
+Se ajusta un nuevo modelo, pero esta vez sin la variable **ecog.ps**
+
+```{r}
+#Modelo sin ecog.ps
+result2 <- survreg(Surv(futime, fustat) ~ age + resid.ds + rx, dist = "exponential", data = base)
+summary(result2)
+```
+Se ajusta un nuevo modelo sin la variable **rx**
+
+```{r}
+#Modelo sin rx
+result3 <- survreg(Surv(futime, fustat) ~ age + resid.ds, dist = "exponential", data = base)
+summary(result3)
+```
+
+
 
