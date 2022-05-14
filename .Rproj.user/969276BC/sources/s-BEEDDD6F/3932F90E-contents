@@ -15,11 +15,6 @@ library("cowplot")
 
 base <- read.csv("ovarian.csv")
 
-base$resid.ds <- as.factor(base$resid.ds)
-
-base$ecog.ps <- as.factor(base$ecog.ps)
-
-base$rx <- as.factor(base$rx)
 ```
 
 Se tiene una base de datos que proviene de un estudio de supervivencia en mujeres con cáncer de ovarios sometidas a dos tratamientos distintos, en  se tienen en cuenta 7 variables que son: futime (tiempo de supervivencia en días), fustat (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla), age (edad de la paciente en años), resid.ds (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si), rx (tratamiento a la que es sometida la paciente), ecog.ps (puntuación del test, ECOG = 1 es buen estado).
@@ -93,10 +88,10 @@ plot_grid(g5, g6)
 
 \section{1. }
 
-**Ajuste al menos tres modelos param ́etricos de lafamilia AFT y seleccione uno de ellos de acuerdo a algun criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribucíon, seleccione las variables estad́ısticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo,evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.**
+**Ajuste al menos tres modelos parametricos de la familia AFT y seleccione uno de ellos de acuerdo a algún criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribucíon, seleccione las variables estad́ısticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo,evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.**
 
 
-\subsection{a. Todas las covariables}
+\subsection{a. modelo exponencial}
 
 Se ajusta un primer modelo con todas las covariables 
 
@@ -121,5 +116,11 @@ result3 <- survreg(Surv(futime, fustat) ~ age + resid.ds, dist = "exponential", 
 summary(result3)
 ```
 
+Se ajusta un nuevo modelo sin la variable **resid.ds**
 
+```{r}
+#Modelo sin rx
+result4 <- survreg(Surv(futime, fustat) ~ age, dist = "exponential", data = base)
+summary(result4)
+```
 
