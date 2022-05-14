@@ -1,10 +1,10 @@
 "0",""
-"0","result2_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist=""lognormal"",data=base)"
-"0","summary(result2_logn)"
+"0","result3_logn<-survreg(Surv(futime,fustat)~rx+age,dist=""lognormal"",data=base)"
+"0","summary(result3_logn)"
 "1","
 Call:
 "
-"1","survreg(formula = Surv(futime, fustat) ~ factor(rx) + age, data = base, 
+"1","survreg(formula = Surv(futime, fustat) ~ rx + age, data = base, 
 "
 "1","    dist = ""lognormal"")
 "
@@ -20,7 +20,7 @@ Call:
 "1"," 10.06"
 "1"," < 2e-16"
 "1","
-factor(rx)2"
+rx2        "
 "1","  0.6904"
 "1","     0.3169"
 "1","  2.18"

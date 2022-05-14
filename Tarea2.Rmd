@@ -15,6 +15,12 @@ library("cowplot")
 
 base <- read.csv("ovarian.csv")
 
+base$resid.ds <- as.factor(base$resid.ds)
+
+base$ecog.ps <- as.factor(base$ecog.ps)
+
+base$rx <- as.factor(base$rx)
+
 ```
 
 Se tiene una base de datos que proviene de un estudio de supervivencia en mujeres con cáncer de ovarios sometidas a dos tratamientos distintos, en  se tienen en cuenta 7 variables que son: futime (tiempo de supervivencia en días), fustat (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla), age (edad de la paciente en años), resid.ds (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si), rx (tratamiento a la que es sometida la paciente), ecog.ps (puntuación del test, ECOG = 1 es buen estado).
@@ -124,25 +130,72 @@ result4 <- survreg(Surv(futime, fustat) ~ age, dist = "exponential", data = base
 summary(result4)
 ```
 
+\subsecion{b. distribución log-normal}
 
-Usando la distribución log-normal
-
-1. Usando todas las variables
+- Usando todas las variables
 
 ```{r, echo=FALSE}
 
-result1_logn<-survreg(Surv(futime,fustat)~factor(resid.ds)+factor(ecog.ps)+factor(rx)+age,dist="lognormal",data=base)
+result1_logn<-survreg(Surv(futime,fustat)~resid.ds+ecog.ps+rx+age,dist="lognormal",data=base)
 summary(result1_logn)
 
 ```
 
-- Unicamente las variables age y rx son significativa. Ajusto un modelo con esto:
+- Eliminando **ecog.ps**
 
 ```{r, echo=FALSE}
 
-result2_logn<-survreg(Surv(futime,fustat)~factor(rx)+age,dist="lognormal",data=base)
+result2_logn<-survreg(Surv(futime,fustat)~resid.ds+rx+age,dist="lognormal",data=base)
 summary(result2_logn)
 
 ```
 
+- Eliminando **resid.ds**
+```{r, echo=FALSE}
+
+result3_logn<-survreg(Surv(futime,fustat)~rx+age,dist="lognormal",data=base)
+summary(result3_logn)
+
+```
+
+- Las variables **rx** y **age** son significativas para ajustar el modelo de regresión usando la distribución lognormal. 
+
+\subsecion{b. distribución log-logistic}
+
+- Usando todas las variables
+
+```{r, echo=FALSE}
+
+result1_logl<-survreg(Surv(futime,fustat)~resid.ds+ecog.ps+rx+age,dist="loglogistic",data=base)
+summary(result1_logl)
+
+```
+
+- Eliminando la variable **ecog.ps**
+
+```{r, echo=FALSE}
+
+result2_logl<-survreg(Surv(futime,fustat)~resid.ds+rx+age,dist="loglogistic",data=base)
+summary(result2_logl)
+
+```
+- Se elimina **resid.ds**
+
+```{r, echo=FALSE}
+
+result3_logl<-survreg(Surv(futime,fustat)~rx+age,dist="loglogistic",data=base)
+summary(result3_logl)
+
+```
+
+- Se elimina **rx**
+
+```{r, echo=FALSE}
+
+result3_logl<-survreg(Surv(futime,fustat)~age,dist="loglogistic",data=base)
+summary(result3_logl)
+
+```
+
+- Solo la variable **age** es significativa para ajustar el modelo de regresión usando la distribución loglogistic.
 
