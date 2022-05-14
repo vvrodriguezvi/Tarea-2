@@ -1,0 +1,86 @@
+#Ejemplos clase 12 IAS
+
+library(survival)
+library(splines)
+library(ggplot2)
+library(gridExtra)
+myel<-read.table("myelomatosis.txt",header=T)
+head(myel)
+#Descriptivos
+
+#Treat
+by(myel$dur,myel$treat,summary)
+
+means1<-round(c(by(myel$dur,myel$treat, mean)),2)
+
+a<-ggplot(myel,aes(x=dur,group=factor(treat), color=factor(treat), fill=factor(treat)))+
+  geom_density(alpha=0.4)+
+  geom_vline(xintercept=means1[1], size=0.9, color="purple",alpha=0.54)+
+  geom_vline(xintercept=means1[2], size=0.9, color="red",alpha=0.54)+
+  geom_text(aes(x=means1[1]+150,label=paste0("Mean\n",means1[1]), y=0.0005),size=3.5,col="red")+
+  geom_text(aes(x=means1[2]-120,label=paste0("Mean\n",means1[2]), y=0.00075),size=3.5,col="blue")
+
+a
+b<-ggplot(myel,aes(x=factor(treat),y=dur,group=factor(treat), color=factor(treat), fill=factor(treat)))+
+  geom_boxplot(alpha=0.4)+
+  stat_summary(aes(x=factor(treat),y=dur,group=factor(treat), color=factor(treat)),fun=mean, geom="point", shape=20, 
+               size=4, color="yellow", fill="red", position = "identity")
+b
+
+#Renal
+by(myel$dur,myel$renal,summary)
+means2<-round(c(by(myel$dur,myel$renal, mean)),2)
+
+c<-ggplot(myel,aes(x=dur,group=factor(renal), color=factor(renal), fill=factor(renal)))+
+  geom_density(alpha=0.4)+
+  geom_vline(xintercept=means2[1], size=0.9, color="purple",alpha=0.54)+
+  geom_vline(xintercept=means2[2], size=0.9, color="red",alpha=0.54)+
+  geom_text(aes(x=means2[1]+150,label=paste0("Mean\n",means2[1]), y=0.013),size=3.5,col="red")+
+  geom_text(aes(x=means2[2]+100,label=paste0("Mean\n",means2[2]), y=0.013),size=3.5,col="blue")
+
+c
+d<-ggplot(myel,aes(x=factor(renal),y=dur,group=factor(renal), color=factor(renal), fill=factor(renal)))+
+  geom_boxplot(alpha=0.4)+
+  stat_summary(aes(x=factor(renal),y= dur,
+                   group=factor(renal)),fun=mean, geom="point", shape=20, 
+               size=4, color="yellow", fill="red", position = "identity")
+
+
+d
+grid.arrange(a,b,c,d,nrow=2)
+
+
+#forma de obtener una estimación del parámetro lambda con censura
+result<-survreg(Surv(dur,status)~1,dist="exponential",data=myel)
+result
+mu<--log(sum(myel$status)/sum(myel$dur))
+lambda<-exp(-mu)
+mu
+
+#Implementando un modelo de regresión exponencial
+#especificando treat and renal como factores
+result1<-survreg(Surv(dur,status)~factor(treat)+factor(renal),
+                 dist="exponential",data=myel)
+summary(result1)
+
+#Interaction
+
+result2<-survreg(Surv(dur,status)~factor(treat)*factor(renal),
+                 dist="exponential",data=myel)
+summary(result2)
+
+#Conclusion: No interaction is present, so principal 
+#effects of both treat and renal are statistically valid
+
+#Confounding
+
+result3<-survreg(Surv(dur,status)~factor(treat),
+                 dist="exponential",data=myel)
+summary(result3)
+
+#To evaluate confounding use abs((beta_unadjusted-beta_adjusted)/beta_unadjusted)
+
+abs((-0.612+1.16)/-0.612)*100
+
+#Conclusion: Renal is confounding the effect of treat, so the model with both
+#treat and renal must be reported

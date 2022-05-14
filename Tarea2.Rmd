@@ -223,6 +223,38 @@ kable(tabla[ ,c(1, 2, 4)]) %>%
 
 De la tabla se observa que el modelo tres con distribución lognormal es el que cuenta con menor BIC, pero en el otro criterio es el segundo modelo con menor AIC, entonces, por el criterio de parsimonia se escoge el modelo tres con distribución lognormal ya que cuenta con pocos parámetros y las diferencias de los criterios entre los modelos no es muy grande. 
 
-. 
+Evaluando interacción en el modelo 
 
+```{r}
+#Interaction
+
+resultFinal <- survreg(Surv(futime, fustat) ~ rx*age, dist = "lognormal", data = base)
+summary(resultFinal)
+
+```
+
+Se observa que la interacción en el modelo no es significativa, por lo tanto, los efectos principales tanto de la edad como rx son estadísticamente validos. 
+
+Evaluando un posible efecto de confusión con la variable **resid.ds**
+
+```{r}
+#Confounding
+
+resultConf <- survreg(Surv(futime, fustat) ~ rx + age + resid.ds, dist = "lognormal", data = base)
+summary(resultConf)
+summary(result3_logn)
+
+#To evaluate confounding use abs((beta_unadjusted-beta_adjusted)/beta_unadjusted)
+
+rxCon <- abs((0.6904 - 0.6030)/0.6904)*100
+ageCon <- abs((-0.0765 - -0.0677)/-0.0765)*100
+
+rxCon
+ageCon
+
+#Conclusion: Renal is confounding the effect of treat, so the model with both
+#treat and renal must be reported
+```
+
+Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de resid.ds es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión.
 
