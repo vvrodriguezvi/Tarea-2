@@ -258,3 +258,5 @@ ageCon
 
 Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de resid.ds es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión.
 
+
+## punto 2
