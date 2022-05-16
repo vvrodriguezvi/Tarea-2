@@ -1,0 +1,117 @@
+#Ejemplo clase 7 IAS. Obteniendo la S(t) usando KM y NA
+
+library(survival)
+library(ggplot2)
+library(ggfortify)
+library(gridExtra)
+
+
+cancer <- read.table(file.choose(), header = TRUE)
+cancer$grupo<-as.factor(cancer$grupo)
+df=data.frame(cancer)
+
+grupo1=df[df[,1]==1,]
+
+KM_fit1 <- survfit(Surv(tiempo, status) ~ grupo, data = grupo1)
+
+S_KM_leuk1 <- data.frame(
+  time = c(KM_fit1$time),
+  St=KM_fit1$surv,
+  group="1: S(t)_KM",
+  method="K-M"
+)
+head(S_KM_leuk1)
+
+#Using the NA estimator of H(t)
+
+h_st1 <- KM_fit1$n.event /  KM_fit1$n.risk
+H1<-cumsum(h_st1)
+S_est1 <- exp(-H1)
+
+S_NA_leuk1 <- data.frame(
+  time = c(KM_fit1$time),
+  St=S_est1,
+  group="1: S(t)_NA",
+  method="N-A"
+)
+head(S_NA_leuk1)
+SNA_leuk1<-rbind(S_KM_leuk1 , S_NA_leuk1)
+
+plot1<-ggplot(SNA_leuk1, aes(x = time, y = St,group=group,color=group)) + 
+  geom_step(size=2, alpha=0.5,linetype=1)+ 
+  labs(x = "Weeks of Follow-Up", 
+       y = "Survival function S(t)",
+       title = "KM and NA Survival functions")
+plot1
+
+grupo2=df[df[,1]==0,]
+
+KM_fit2 <- survfit(Surv(tiempo, status) ~ grupo, data = grupo2)
+
+S_KM_leuk2 <- data.frame(
+  time = c(KM_fit2$time),
+  St=KM_fit2$surv,
+  group="0: S(t)_KM",
+  method="K-M"
+)
+head(S_KM_leuk2)
+
+#Using the NA estimator of H(t)
+
+h_st2 <- KM_fit2$n.event /  KM_fit2$n.risk
+H2<-cumsum(h_st2)
+S_est2 <- exp(-H2)
+
+S_NA_leuk2 <- data.frame(
+  time = c(KM_fit2$time),
+  St=S_est2,
+  group="0: S(t)_NA",
+  method="N-A"
+)
+head(S_NA_leuk2)
+SKM_leuk2<-rbind(S_KM_leuk2 , S_NA_leuk2)
+
+plot2<-ggplot(SKM_leuk2, aes(x = time, y = St,group=group,color=group)) + 
+  geom_step(size=2, alpha=0.5,linetype=1)+ 
+  #  geom_point(data=SNA_biliar, aes(x = time, y = St,group=group,color=group))+
+  labs(x = "Weeks of Follow-Up", 
+       y = "Survival function S(t)",
+       title = "KM and NA Survival functions")
+plot2
+
+all<-rbind(SNA_leuk1,SKM_leuk2)
+head(all)
+ggplot(all, aes(x = time, y = St,group=group,color=group)) + 
+  geom_step(size=2)+ 
+  labs(x = "Weeks of Follow-Up", 
+       y = "Survival Function",
+       title = "KM and NA Survival functions")
+
+ggplot(all, aes(x = time, y = St,group=group,color=method)) + 
+  geom_step(size=1)+ 
+  labs(x = "Weeks of Follow-Up", 
+       y = "Survival Function",
+       title = "KM and NA Survival functions")
+
+
+#Ilustración de la librería survminer
+
+# if(!require(devtools)) install.packages("devtools")
+# devtools::install_github("kassambara/survminer", build_vignettes = FALSE)
+library(survminer)
+
+KM_fit <- survfit(Surv(tiempo, status) ~ grupo, data = df)
+
+ggsurvplot(KM_fit, data = df,
+           size = 1,                 # change line size
+           palette = 
+             c("#E7B800", "#2E9FDF"),# custom color palettes
+           conf.int = TRUE,          # Add confidence interval
+           pval = TRUE, 
+           risk.table = TRUE,        # Add risk table
+           risk.table.col = "strata",# Risk table color by groups
+           legend.labs = c("0", "1"),    # Change legend labels
+           risk.table.height = 0.25, # Useful to change when you have multiple groups
+           ggtheme = theme_bw(),      # Change ggplot2 theme
+           surv.median.line = "hv"
+)

@@ -1,0 +1,39 @@
+#Ejemplos clase 13 IAS
+
+library(survival)
+library(splines)
+
+myel<-read.table("myelomatosis.txt",header=T)
+head(myel)
+
+#forma de obtener una estimación del parámetro lambda con censura
+
+result<-survreg(Surv(dur,status)~1,
+                dist="weibull",data=myel)
+summary(result)
+
+#Implementando un modelo de regresion Weibull
+
+result1<-survreg(Surv(dur,status) ~ as.factor(treat)+as.factor(renal),dist="weibull",data=myel)
+summary(result1)
+
+#Interaction
+
+result2<-survreg(Surv(dur,status)~factor(treat)*factor(renal),
+                 dist="weibull",data=myel)
+summary(result2)
+
+#Conclusion: No interaction is present, so principal 
+#effects of both treat and renal are statistically valid
+
+#Confounding
+
+result3<-survreg(Surv(dur,status)~factor(treat),
+                 dist="weibull",data=myel)
+summary(result3)
+
+#To evaluate confounding use abs((beta_unadjusted-beta_adjusted)/beta_unadjusted)
+
+abs((-1.223+1.255)/-1.223)*100
+
+#Conclusion: Renal is NOT confounding the effect of treat.
