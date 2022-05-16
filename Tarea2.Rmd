@@ -258,9 +258,10 @@ ageCon
 
 Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de __resid.ds__ es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión.
 
+\section{2.}
+Los siguientes datos se refieren a dos grupos de mujeres con ćancer de ovario.
 
-## punto 2
-
+\subsection{a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard}
 
 
 
