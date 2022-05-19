@@ -1,6 +1,8 @@
 ---
 title: "Tarea 2 - Análisis de Supervivencia"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -8,10 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library("survival")
 library("tinytex")
 library("tidyverse")
-library(splines)
-library(ggplot2)
-library(gridExtra)
+library("splines")
+library("ggplot2")
+library("gridExtra")
 library("cowplot")
+library("survminer")
 
 base <- read.csv("ovarian.csv")
 
@@ -256,5 +259,59 @@ ageCon
 #treat and renal must be reported
 ```
 
-Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de resid.ds es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión.
+Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de __resid.ds__ es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión.
 
+\section{2.}
+
+- Los siguientes datos se refieren a dos grupos de mujeres con ćancer de ovario.
+
+\subsection{a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard}
+
+```{r, echo =FALSE}
+
+base2 <- read.csv2("Tumor.csv")
+base2$Grupo <- as.factor(base2$Grupo)
+
+#Implementando un modelo de regresion Weibull
+
+r2 <- survreg(Surv(Tiempo, Status) ~ Grupo, dist = "weibull", data = base2)
+summary(r2)
+```
+
+
+Grafico de la función hazard
+
+```{r, echo=FALSE}
+require(flexsurv)
+
+flexgg <- flexsurvreg(Surv(Tiempo,Status) ~ Grupo, dist="weibull", data=base2) %>% 
+    summary(type = "hazard") %>% data.frame
+
+ggplot() + geom_line(aes(x = Grupo.1.time, y = Grupo.1.est, col = "red"), data = flexgg) + 
+  geom_line(aes(x = Grupo.2.time, y = Grupo.2.est, col = "blue"), data = flexgg) + 
+  labs(title='Función hazard para el cáncer de ovario',
+       caption='Mujeres con cáncer de ovario, el grupo 1 corresponde a tumor de bajo grado y el grupo 2 a tumor de alto grado.', x = 'tiempo', y = 'Hazard ratio') +
+  scale_color_hue(labels = c("Grupo 1", "Grupo 2"))
+```
+
+
+\subsection{b) Con estos datos y sin usar el log-rank test pruebe la hipótesis $H_0~:S_1(t) = S_2(t)$ para todo t. Use un $\alpha = 0,05$ ¿Qué se puede concluir? ¿Es plausible la conclusión?}
+
+Del resumen del modelo visto previamente se sabe que el coeficiente estimado para la variable grupo es de -0.829 unidades en el logaritmo del tiempo de supervivencia, es decir estar en el grupo 2, disminuye en -0.829 unidades el logaritmo de la supervivencia, para probar que pertenecer a un grupo u otro afecta el tiempo de supervivencia se construirá un intervalo de confianza. 
+
+Entonces queremos probar que: 
+
+$$H_0~:S_1(t) = S_2(t) \\ H_1~:S_1(t) \neq S_2(t)$$
+
+Para realizarlo se construira un intervalo de confianza 
+
+$$\hat{\beta_j} \pm z_{1 - \alpha/2} \widehat{SE(\hat{B_j})} \\ 
+Luego: ~~~~~~~~~~~~~~~~~~~~ \\
+-0.829 \pm z_{0.975}0.418 \\
+-0.829 \pm 1.959964\times0.418 \\ 
+-0.829 \pm 0.819265 \\
+(-1.648265,~-0.009735)$$
+
+Como el intervalo no contiene al cero, entonces, con una confianza del 95% se muestra que hay suficiente evidencia para rechazar $H_0$, es decir que la supervivencia del grupo 1 es diferente a la supervivencia del grupo 2, por lo tanto, pertenecer a un grupo u otro, o sea, tener un tumor de bajo grado presenta un tiempo de supervivencia diferente a uno de alto grado. 
+
+Esta conclusión es bastante lógica, ya que cuando una persona tiene un tumor de alto grado se espera que sus consecuencias medicas sean más severas que cuando el tumor es de bajo grado. 

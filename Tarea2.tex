@@ -1,0 +1,781 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Tarea 2 - Análisis de Supervivencia}
+\author{}
+\date{\vspace{-2.5em}}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Tarea 2 - Análisis de Supervivencia},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+Se tiene una base de datos que proviene de un estudio de supervivencia
+en mujeres con cáncer de ovarios sometidas a dos tratamientos distintos,
+en se tienen en cuenta 7 variables que son: futime (tiempo de
+supervivencia en días), fustat (estado de la censura donde fustat = 0 es
+censurado, y = 1 es defunción, representa la falla), age (edad de la
+paciente en años), resid.ds (persistencia de la enfermedad tras el
+tratamiento 1 = No, 2 = Si), rx (tratamiento a la que es sometida la
+paciente), ecog.ps (puntuación del test, ECOG = 1 es buen estado).
+
+\includegraphics[width=1\linewidth,height=1.2\textheight]{Tarea2_files/figure-latex/unnamed-chunk-1-1}
+
+\includegraphics[width=1\linewidth,height=1.2\textheight]{Tarea2_files/figure-latex/unnamed-chunk-2-1}
+
+\includegraphics[width=1\linewidth,height=1.2\textheight]{Tarea2_files/figure-latex/unnamed-chunk-3-1}
+
+\section{1. }
+
+\textbf{Ajuste al menos tres modelos parametricos de la familia AFT y
+seleccione uno de ellos de acuerdo a algún criterio o estadístico de los
+vistos en clase. Inicialmente, debe usar todas las covariables, y
+secuencialmente y con cada distribucíon, seleccione las variables
+estad́ısticamente importantes de acuerdo a su valor-p.~Una vez seleccione
+un modelo,evalúe los posibles efectos confusores de las variables que no
+fueron incluidas en el modelo (si es que aplica) e interacciones.
+INTERPRETE.}
+
+\subsection{a. modelo exponencial}
+
+Se ajusta un primer modelo con todas las covariables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Modelo con todas las variables}
+\NormalTok{result1 }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ resid.ds }\SpecialCharTok{+}\NormalTok{ rx }\SpecialCharTok{+}\NormalTok{ ecog.ps, }\AttributeTok{dist =} \StringTok{"exponential"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base) }
+
+\FunctionTok{summary}\NormalTok{(result1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ age + resid.ds + rx + 
+##     ecog.ps, data = base, dist = "exponential")
+##               Value Std. Error     z       p
+## (Intercept) 12.3913     2.0130  6.16 7.5e-10
+## age         -0.0875     0.0338 -2.59  0.0096
+## resid.ds2   -0.7659     0.7411 -1.03  0.3014
+## rx2          0.6269     0.6162  1.02  0.3090
+## ecog.ps2    -0.2523     0.6061 -0.42  0.6772
+## 
+## Scale fixed at 1 
+## 
+## Exponential distribution
+## Loglik(model)= -90.6   Loglik(intercept only)= -98
+##  Chisq= 14.78 on 4 degrees of freedom, p= 0.0052 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+Se ajusta un nuevo modelo, pero esta vez sin la variable
+\textbf{ecog.ps}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Modelo sin ecog.ps}
+\NormalTok{result2 }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ resid.ds }\SpecialCharTok{+}\NormalTok{ rx, }\AttributeTok{dist =} \StringTok{"exponential"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base)}
+\FunctionTok{summary}\NormalTok{(result2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ age + resid.ds + rx, 
+##     data = base, dist = "exponential")
+##               Value Std. Error     z       p
+## (Intercept) 12.3982     2.0401  6.08 1.2e-09
+## age         -0.0906     0.0335 -2.70  0.0069
+## resid.ds2   -0.6968     0.7296 -0.96  0.3395
+## rx2          0.6157     0.6189  0.99  0.3198
+## 
+## Scale fixed at 1 
+## 
+## Exponential distribution
+## Loglik(model)= -90.7   Loglik(intercept only)= -98
+##  Chisq= 14.6 on 3 degrees of freedom, p= 0.0022 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+Se ajusta un nuevo modelo sin la variable \textbf{rx}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Modelo sin rx}
+\NormalTok{result3 }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ resid.ds, }\AttributeTok{dist =} \StringTok{"exponential"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base)}
+\FunctionTok{summary}\NormalTok{(result3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ age + resid.ds, data = base, 
+##     dist = "exponential")
+##              Value Std. Error     z       p
+## (Intercept) 13.442      2.042  6.58 4.6e-11
+## age         -0.102      0.035 -2.92  0.0035
+## resid.ds2   -0.733      0.715 -1.02  0.3056
+## 
+## Scale fixed at 1 
+## 
+## Exponential distribution
+## Loglik(model)= -91.2   Loglik(intercept only)= -98
+##  Chisq= 13.62 on 2 degrees of freedom, p= 0.0011 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+Se ajusta un nuevo modelo sin la variable \textbf{resid.ds}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Modelo sin rx}
+\NormalTok{result4 }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age, }\AttributeTok{dist =} \StringTok{"exponential"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base)}
+\FunctionTok{summary}\NormalTok{(result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ age, data = base, dist = "exponential")
+##               Value Std. Error     z       p
+## (Intercept) 13.9339     2.1030  6.63 3.5e-11
+## age         -0.1185     0.0339 -3.50 0.00047
+## 
+## Scale fixed at 1 
+## 
+## Exponential distribution
+## Loglik(model)= -91.8   Loglik(intercept only)= -98
+##  Chisq= 12.51 on 1 degrees of freedom, p= 0.00041 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+\subsecion{b. distribución log-normal}
+
+\begin{itemize}
+\tightlist
+\item
+  Usando todas las variables
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ resid.ds + ecog.ps + 
+##     rx + age, data = base, dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.3932     0.9833 10.57 < 2e-16
+## resid.ds2   -0.5331     0.3493 -1.53   0.127
+## ecog.ps2    -0.0205     0.3203 -0.06   0.949
+## rx2          0.6059     0.3027  2.00   0.045
+## age         -0.0676     0.0163 -4.15 3.3e-05
+## Log(scale)  -0.4590     0.2202 -2.08   0.037
+## 
+## Scale= 0.632 
+## 
+## Log Normal distribution
+## Loglik(model)= -86.4   Loglik(intercept only)= -97.1
+##  Chisq= 21.43 on 4 degrees of freedom, p= 0.00026 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Eliminando \textbf{ecog.ps}
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ resid.ds + rx + age, 
+##     data = base, dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.3867     0.9756 10.65 < 2e-16
+## resid.ds2   -0.5258     0.3288 -1.60   0.110
+## rx2          0.6030     0.2984  2.02   0.043
+## age         -0.0677     0.0161 -4.20 2.6e-05
+## Log(scale)  -0.4609     0.2178 -2.12   0.034
+## 
+## Scale= 0.631 
+## 
+## Log Normal distribution
+## Loglik(model)= -86.4   Loglik(intercept only)= -97.1
+##  Chisq= 21.42 on 3 degrees of freedom, p= 8.6e-05 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Eliminando \textbf{resid.ds}
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ rx + age, data = base, 
+##     dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.5449     1.0482 10.06 < 2e-16
+## rx2          0.6904     0.3169  2.18   0.029
+## age         -0.0765     0.0171 -4.48 7.4e-06
+## Log(scale)  -0.3813     0.2189 -1.74   0.082
+## 
+## Scale= 0.683 
+## 
+## Log Normal distribution
+## Loglik(model)= -87.7   Loglik(intercept only)= -97.1
+##  Chisq= 18.93 on 2 degrees of freedom, p= 7.8e-05 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Las variables \textbf{rx} y \textbf{age} son significativas para
+  ajustar el modelo de regresión usando la distribución lognormal.
+\end{itemize}
+
+\subsecion{b. distribución log-logistic}
+
+\begin{itemize}
+\tightlist
+\item
+  Usando todas las variables
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ resid.ds + ecog.ps + 
+##     rx + age, data = base, dist = "loglogistic")
+##               Value Std. Error     z       p
+## (Intercept) 10.4756     1.0427 10.05 < 2e-16
+## resid.ds2   -0.5469     0.3530 -1.55    0.12
+## ecog.ps2    -0.0346     0.3147 -0.11    0.91
+## rx2          0.5957     0.3039  1.96    0.05
+## age         -0.0690     0.0174 -3.97 7.2e-05
+## Log(scale)  -0.9869     0.2412 -4.09 4.3e-05
+## 
+## Scale= 0.373 
+## 
+## Log logistic distribution
+## Loglik(model)= -86.8   Loglik(intercept only)= -97.4
+##  Chisq= 21.06 on 4 degrees of freedom, p= 0.00031 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Eliminando la variable \textbf{ecog.ps}
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ resid.ds + rx + age, 
+##     data = base, dist = "loglogistic")
+##               Value Std. Error     z       p
+## (Intercept) 10.4561     1.0209 10.24 < 2e-16
+## resid.ds2   -0.5371     0.3404 -1.58    0.11
+## rx2          0.5941     0.3026  1.96    0.05
+## age         -0.0691     0.0173 -4.00 6.4e-05
+## Log(scale)  -0.9892     0.2398 -4.12 3.7e-05
+## 
+## Scale= 0.372 
+## 
+## Log logistic distribution
+## Loglik(model)= -86.8   Loglik(intercept only)= -97.4
+##  Chisq= 21.05 on 3 degrees of freedom, p= 1e-04 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Se elimina \textbf{resid.ds}
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ rx + age, data = base, 
+##     dist = "loglogistic")
+##               Value Std. Error     z       p
+## (Intercept) 10.8071     1.1538  9.37 < 2e-16
+## rx2          0.5911     0.3298  1.79 0.07309
+## age         -0.0805     0.0187 -4.31 1.6e-05
+## Log(scale)  -0.9050     0.2385 -3.79 0.00015
+## 
+## Scale= 0.405 
+## 
+## Log logistic distribution
+## Loglik(model)= -88   Loglik(intercept only)= -97.4
+##  Chisq= 18.62 on 2 degrees of freedom, p= 9e-05 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Se elimina \textbf{rx}
+\end{itemize}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ age, data = base, dist = "loglogistic")
+##               Value Std. Error     z       p
+## (Intercept) 11.6495     1.3767  8.46 < 2e-16
+## age         -0.0887     0.0225 -3.95 7.9e-05
+## Log(scale)  -0.8003     0.2428 -3.30 0.00098
+## 
+## Scale= 0.449 
+## 
+## Log logistic distribution
+## Loglik(model)= -89.6   Loglik(intercept only)= -97.4
+##  Chisq= 15.61 on 1 degrees of freedom, p= 7.8e-05 
+## Number of Newton-Raphson Iterations: 5 
+## n= 26
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Solo la variable \textbf{age} es significativa para ajustar el modelo
+  de regresión usando la distribución loglogistic.
+\end{itemize}
+
+Evaluando los modelos con el criterio AIC y BIC
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{criterioAIC }\OtherTok{\textless{}{-}} \FunctionTok{AIC}\NormalTok{(result1, result1\_logl, result1\_logn, result2, result2\_logl, result2\_logn, result3, result3\_logl, result3\_logn, result4)}
+
+\NormalTok{criterioBIC }\OtherTok{\textless{}{-}} \FunctionTok{BIC}\NormalTok{(result1, result1\_logl, result1\_logn, result2, result2\_logl, result2\_logn, result3, result3\_logl, result3\_logn, result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(kableExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'kableExtra'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     group_rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{criterioAIC}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              df      AIC
+## result1       5 191.2886
+## result1_logl  6 185.6466
+## result1_logn  6 184.8166
+## result2       4 189.4634
+## result2_logl  5 183.6588
+## result2_logn  5 182.8207
+## result3       3 188.4435
+## result3_logl  3 185.1017
+## result3_logn  4 183.3164
+## result4       2 187.5586
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{criterioBIC}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              df      BIC
+## result1       5 197.5791
+## result1_logl  6 193.1952
+## result1_logn  6 192.3652
+## result2       4 194.4958
+## result2_logl  5 189.9492
+## result2_logn  5 189.1112
+## result3       3 192.2178
+## result3_logl  3 188.8760
+## result3_logn  4 188.3488
+## result4       2 190.0748
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabla }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(criterioAIC, criterioBIC)}
+
+\FunctionTok{kable}\NormalTok{(tabla[ ,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{)]) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\centering
+\begin{tabular}{l|r|r|r}
+\hline
+  & df & AIC & BIC\\
+\hline
+result1 & 5 & 191.2886 & 197.5791\\
+\hline
+result1\_logl & 6 & 185.6466 & 193.1952\\
+\hline
+result1\_logn & 6 & 184.8166 & 192.3652\\
+\hline
+result2 & 4 & 189.4634 & 194.4958\\
+\hline
+result2\_logl & 5 & 183.6588 & 189.9492\\
+\hline
+result2\_logn & 5 & 182.8207 & 189.1112\\
+\hline
+result3 & 3 & 188.4435 & 192.2178\\
+\hline
+result3\_logl & 3 & 185.1017 & 188.8760\\
+\hline
+result3\_logn & 4 & 183.3164 & 188.3488\\
+\hline
+result4 & 2 & 187.5586 & 190.0748\\
+\hline
+\end{tabular}
+\end{table}
+
+De la tabla se observa que el modelo tres con distribución lognormal es
+el que cuenta con menor BIC, pero en el otro criterio es el segundo
+modelo con menor AIC, entonces, por el criterio de parsimonia se escoge
+el modelo tres con distribución lognormal ya que cuenta con pocos
+parámetros y las diferencias de los criterios entre los modelos no es
+muy grande.
+
+Evaluando interacción en el modelo
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Interaction}
+
+\NormalTok{resultFinal }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ rx}\SpecialCharTok{*}\NormalTok{age, }\AttributeTok{dist =} \StringTok{"lognormal"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base)}
+\FunctionTok{summary}\NormalTok{(resultFinal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ rx * age, data = base, 
+##     dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.2591     1.0583  9.69 < 2e-16
+## rx2          3.9955     3.9076  1.02   0.307
+## age         -0.0717     0.0174 -4.12 3.8e-05
+## rx2:age     -0.0565     0.0662 -0.85   0.393
+## Log(scale)  -0.3844     0.2191 -1.75   0.079
+## 
+## Scale= 0.681 
+## 
+## Log Normal distribution
+## Loglik(model)= -87.2   Loglik(intercept only)= -97.1
+##  Chisq= 19.8 on 3 degrees of freedom, p= 0.00019 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+Se observa que la interacción en el modelo no es significativa, por lo
+tanto, los efectos principales tanto de la edad como rx son
+estadísticamente validos.
+
+Evaluando un posible efecto de confusión con la variable
+\textbf{resid.ds}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Confounding}
+
+\NormalTok{resultConf }\OtherTok{\textless{}{-}} \FunctionTok{survreg}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(futime, fustat) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ rx }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ resid.ds, }\AttributeTok{dist =} \StringTok{"lognormal"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ base)}
+\FunctionTok{summary}\NormalTok{(resultConf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ rx + age + resid.ds, 
+##     data = base, dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.3867     0.9756 10.65 < 2e-16
+## rx2          0.6030     0.2984  2.02   0.043
+## age         -0.0677     0.0161 -4.20 2.6e-05
+## resid.ds2   -0.5258     0.3288 -1.60   0.110
+## Log(scale)  -0.4609     0.2178 -2.12   0.034
+## 
+## Scale= 0.631 
+## 
+## Log Normal distribution
+## Loglik(model)= -86.4   Loglik(intercept only)= -97.1
+##  Chisq= 21.42 on 3 degrees of freedom, p= 8.6e-05 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(result3\_logn)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(futime, fustat) ~ rx + age, data = base, 
+##     dist = "lognormal")
+##               Value Std. Error     z       p
+## (Intercept) 10.5449     1.0482 10.06 < 2e-16
+## rx2          0.6904     0.3169  2.18   0.029
+## age         -0.0765     0.0171 -4.48 7.4e-06
+## Log(scale)  -0.3813     0.2189 -1.74   0.082
+## 
+## Scale= 0.683 
+## 
+## Log Normal distribution
+## Loglik(model)= -87.7   Loglik(intercept only)= -97.1
+##  Chisq= 18.93 on 2 degrees of freedom, p= 7.8e-05 
+## Number of Newton-Raphson Iterations: 6 
+## n= 26
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#To evaluate confounding use abs((beta\_unadjusted{-}beta\_adjusted)/beta\_unadjusted)}
+
+\NormalTok{rxCon }\OtherTok{\textless{}{-}} \FunctionTok{abs}\NormalTok{((}\FloatTok{0.6904} \SpecialCharTok{{-}} \FloatTok{0.6030}\NormalTok{)}\SpecialCharTok{/}\FloatTok{0.6904}\NormalTok{)}\SpecialCharTok{*}\DecValTok{100}
+\NormalTok{ageCon }\OtherTok{\textless{}{-}} \FunctionTok{abs}\NormalTok{((}\SpecialCharTok{{-}}\FloatTok{0.0765} \SpecialCharTok{{-}} \SpecialCharTok{{-}}\FloatTok{0.0677}\NormalTok{)}\SpecialCharTok{/{-}}\FloatTok{0.0765}\NormalTok{)}\SpecialCharTok{*}\DecValTok{100}
+
+\NormalTok{rxCon}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12.65933
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ageCon}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11.50327
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Conclusion: Renal is confounding the effect of treat, so the model with both}
+\CommentTok{\#treat and renal must be reported}
+\end{Highlighting}
+\end{Shaded}
+
+Puesto que el cambio porcentual en las estimaciones de ambos parámetros
+después de considerar el efecto de \textbf{resid.ds} es mayor al 10\%,
+se puede argumentar que la variable resid.ds es una variable de
+confusión.
+
+\section{2.}
+
+\begin{itemize}
+\tightlist
+\item
+  Los siguientes datos se refieren a dos grupos de mujeres con ćancer de
+  ovario.
+\end{itemize}
+
+\subsection{a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard}
+
+\begin{verbatim}
+## 
+## Call:
+## survreg(formula = Surv(Tiempo, Status) ~ as.factor(Grupo), data = base2, 
+##     dist = "weibull")
+##                    Value Std. Error     z      p
+## (Intercept)        7.015      0.354 19.81 <2e-16
+## as.factor(Grupo)2 -0.829      0.418 -1.98  0.047
+## Log(scale)        -0.181      0.191 -0.95  0.343
+## 
+## Scale= 0.834 
+## 
+## Weibull distribution
+## Loglik(model)= -142.1   Loglik(intercept only)= -144.2
+##  Chisq= 4.22 on 1 degrees of freedom, p= 0.04 
+## Number of Newton-Raphson Iterations: 5 
+## n= 34
+\end{verbatim}
+
+Grafico de la función hazard
+
+\begin{verbatim}
+## Loading required package: flexsurv
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'flexsurv' was built under R version 4.1.3
+\end{verbatim}
+
+\includegraphics{Tarea2_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\subsection{b) Con estos datos y sin usar el log-rank test pruebe la hipótesis $H_0~:S_1(t) = S_2(t)$ para todo t. Use un $\alpha = 0,05$ ¿Qué se puede concluir? ¿Es plausible la conclusión?}
+
+PH interpretation
+
+To translate the coefficient in an AFT model \(\( \alpha_j \)\) to that
+of a PH model \(\( \beta_j \)\),
+
+\(\( \beta_j = -\alpha_j p \)\)
+
+where \(\( p \)\) is the shape parameter.
+
+For this example, the coefficient is multiplied by -1, then multiplied
+by the shape parameter (1/scale parameter = 1/1 for exponential model).
+
+exp(-0.516 * -1 * 1/1) = 1.68
+
+This is the hazard ratio comparing gender = 1 to gender = 0.
+
+\end{document}

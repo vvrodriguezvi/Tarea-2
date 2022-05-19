@@ -3,7 +3,7 @@
     "path": "C:/Users/57300/Documents/GitHub/Tarea-2/Tarea2.Rmd",
     "project_path": "Tarea2.Rmd",
     "type": "r_markdown",
-    "hash": "2321924299",
+    "hash": "712839458",
     "contents": "",
     "dirty": false,
     "created": 1652539724153.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "258,205",
-        "scrollLine": "257",
-        "last_setup_crc32": "12605B46d8c785ee"
+        "cursorPosition": "316,147",
+        "scrollLine": "300",
+        "last_setup_crc32": "D356D0DDfd3592ff"
     },
     "folds": "",
-    "lastKnownWriteTime": 1652548723,
+    "lastKnownWriteTime": 1652976473,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1652548723996,
+    "last_content_update": 1652976473847,
     "read_only": false,
     "read_only_alternatives": []
 }

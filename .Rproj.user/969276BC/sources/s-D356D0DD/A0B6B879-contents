@@ -1,0 +1,141 @@
+# Estos datos provienen de un estudio de 47 pacientes con cáncer de conducto biliar 
+# (Fleming et al 1980 ). Estos pacientes fueron monitoreados para determinar si 
+# aquellos tratados con una combinación de radiación y quimioterapia y 5-Fluorouracil (5-FU) 
+#(grupo 1, N=22, RoRx+5-FU ) tenían mayor probabilidad de supervivencia que un grupo 
+#de control (Grupo 2, N=25). 
+# Tres pacientes del grupo tratamiento presentan datos censurados, mientras ninguno 
+# del grupo control está censurado.
+# Fuente: Fleming, T.R., O’Fallon, J.R., O’Brien, P.C. and Harrington, D.P. 
+# ‘Modified Kolmogorov-Smirnov test procedures with application to arbitrary right-censored 
+# data’, Biometrics, 36,607-625 (1980)
+#
+# Primary biliary cirrhosis (PBC) is a chronic and slowly progressive cholestatic 
+# liver disease of autoimmune etiology characterized by injury of the intrahepatic 
+# bile ducts that may eventually lead to liver failure. Affected individuals are 
+# usually in their fifth to seventh decades of life at time of diagnosis, and 90% are 
+# women.
+
+library(survival)
+library(ggplot2)
+library(ggfortify)
+library(gridExtra)
+
+# data<-data(pbc, package="survival")
+# head(pbc)
+
+cancer<-read.table(file='cancer_biliar.txt',header=T)
+cancer$grupo<-as.factor(cancer$grupo)
+head(cancer)
+dim.data.frame(cancer)
+by(cancer$tiempo,cancer$grupo,summary)
+df=data.frame(cancer)
+head(df)
+tail(df)
+
+ggplot(df,aes(y=tiempo,x=grupo,group=grupo,color=grupo,fill=grupo))+
+  geom_boxplot()+
+  stat_summary(aes(y=tiempo,x=grupo),fun=mean, geom="point", shape=20, 
+               size=4, color="yellow")
+
+KM_fit <- survfit(Surv(tiempo, status) ~ grupo, data = df)
+
+autoplot(KM_fit, type="fill",surv.alpha=0.9, 
+         surv.size=2,
+         conf.int.alpha=0.2,
+         censor.size=5,
+         censor.colour="purple")+ 
+  labs(x = "\n Survival Time (days) ", y = "Survival Probabilities \n", 
+       title = "Estimated Survival Curves Of \n biliary cancer Patients Using KM") +
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.title.x = element_text(face="bold", colour="#FF7A33", size = 12),
+        axis.title.y = element_text(face="bold", colour="#FF7A33", size = 12),
+        legend.title = element_text(face="bold", size = 10))
+
+#using S(t)=exp(-H(t)) relationship
+
+grupo1=df[df[,1]==1,]
+
+KM_fit1 <- survfit(Surv(tiempo, status) ~ grupo, data = grupo1)
+
+CUMHAZ_1<--log(KM_fit1$surv)
+
+haz_biliar1 <- data.frame(
+  time = c(KM_fit1$time),
+  #  inverse_KM = CUMHAZ_1,
+  N_A = CUMHAZ_1,
+  group="1",
+  method="Inverse_KM"
+)
+
+grupo2=df[df[,1]==2,]
+
+KM_fit2 <- survfit(Surv(tiempo, status) ~ grupo, data = grupo2)
+
+CUMHAZ_2<--log(KM_fit2$surv)
+
+haz_biliar2 <- data.frame(
+  time = c(KM_fit2$time),
+  #  inverse_KM = CUMHAZ_2,
+  N_A=CUMHAZ_2,
+  group="0",
+  method="Inverse_KM"
+)
+
+haz_biliar<-rbind(haz_biliar1,haz_biliar2)
+
+plot1<-ggplot(haz_biliar, aes(x = time, y = N_A,group=group,color=group)) + 
+  geom_step(size=2)+ 
+  labs(x = "Days of Follow-Up", 
+       y = "Cumulative Hazard",
+       title = "Cumulative Hazard Function via Inverse K-M")
+plot1
+
+#Using the NA estimator of H(t)
+
+h_st1 <- KM_fit1$n.event /  KM_fit1$n.risk
+H_est1 <- cumsum(h_st1)
+
+h_st2 <- KM_fit2$n.event /  KM_fit2$n.risk
+H_est2 <- cumsum(h_st2)
+
+NA_biliar1 <- data.frame(
+  time = c(KM_fit1$time),
+  #  NA_Est = H_est1,
+  N_A=H_est1,
+  group="1_NA",
+  method="N-A"
+)
+
+NA_biliar2 <- data.frame(
+  time = c(KM_fit2$time),
+  #  NA_Est = H_est2,
+  N_A=H_est2,
+  group="0_NA",
+  method="N-A"
+)
+
+NA_biliar<-rbind(NA_biliar1, NA_biliar2)
+
+plot2<-ggplot(NA_biliar, aes(x = time, y = N_A,group=group,color=group)) + 
+  geom_step(size=2)+ 
+  labs(x = "Days of Follow-Up", 
+       y = "Cumulative Hazard",
+       title = "Cumulative Hazard Function via Inverse NA")
+plot2
+
+grid.arrange(plot1,plot2,ncol=2)
+
+
+all<-rbind(haz_biliar,NA_biliar)
+
+ggplot(all, aes(x = time, y = N_A,group=group,color=group)) + 
+  geom_step(size=2)+ 
+  labs(x = "Days of Follow-Up", 
+       y = "Cumulative Hazard",
+       title = "Cumulative Hazard Function via Inverse NA")
+
+ggplot(all, aes(x = time, y = N_A,group=group,color=method)) + 
+  geom_step(size=2)+ 
+  labs(x = "Days of Follow-Up", 
+       y = "Cumulative Hazard",
+       title = "Cumulative Hazard Function via Inverse NA")
