@@ -448,6 +448,16 @@ Entonces $Y = log(T) \sim N(\mu, \sigma)$
 ## Punto 6
 
 Pruebe lo siguiente si $T \sim loglogis(\mu, \sigma)$ entonces log$T \sim logis(\mu, \sigma)$.
+ 
+Sea $y = log(t)$ entonces aplicando exponencial a ambos lados tenemos que $t = e^y$ y $\frac{dt}{dy} = e^y$.Y puesto que:
+
+$$ f(t) = \frac{1}{\sigma t}\frac{e^{\frac{logt- \mu}{\sigma}}}{(1+e^{\frac{logt- \mu}{\sigma}})^2}$$
+Aplicando la técnica de cambio de variable se tiene lo siguente:
+
+$$g(y) = f(e^y)e^y \\
+= \frac{1}{\sigma e^y}\frac{e^{\frac{log e^y- \mu}{\sigma}}}{(1+e^{\frac{log e^y - \mu}{\sigma}})^2}e^y \\ 
+= \frac{1}{\sigma }\frac{e^{\frac{log e^y- \mu}{\sigma}}}{(1+e^{\frac{log e^y - \mu}{\sigma}})^2} \\ = \underbrace{\frac{1}{\sigma }\frac{e^{\frac{t- \mu}{\sigma}}}{(1+e^{\frac{t - \mu}{\sigma}})^2} }_{\text{función de densidad de una dist. Logistica}}$$
+
 
 ## Punto 7
 
