@@ -1,0 +1,3 @@
+"0","criterioAIC <- AIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)"
+"0",""
+"0","criterioBIC <- BIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)"
