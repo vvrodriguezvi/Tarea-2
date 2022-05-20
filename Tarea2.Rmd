@@ -1,6 +1,6 @@
 ---
 title: "Tarea 2 - Análisis de Supervivencia"
-author: "Andrea Serrano, Genaro Aristizabal Echeverri, Juan Esteban Sánchez Pulgarín, Valentina villamizar"
+author: "Andrea Serrano Santos, Genaro Alfonso Aristizabal Echeverri, Juan Esteban Sánchez Pulgarín, Valentina Vanessa Rodriguez Villamizar"
 output: 
   prettydoc::html_pretty:
     theme: architect
