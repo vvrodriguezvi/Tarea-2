@@ -3,7 +3,7 @@
     "path": "~/GitHub/Tarea-2/Tarea2.Rmd",
     "project_path": "Tarea2.Rmd",
     "type": "r_markdown",
-    "hash": "4097969483",
+    "hash": "2206141827",
     "contents": "",
     "dirty": false,
     "created": 1653017595708.0,
@@ -12,17 +12,17 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "104,0",
-        "scrollLine": "97",
+        "cursorPosition": "6,3",
+        "scrollLine": "0",
         "docOutlineVisible": "0",
         "rmdVisualCollapsedChunks": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1653062978,
+    "lastKnownWriteTime": 1653063237,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1653062978654,
+    "last_content_update": 1653063237976,
     "read_only": false,
     "read_only_alternatives": []
 }

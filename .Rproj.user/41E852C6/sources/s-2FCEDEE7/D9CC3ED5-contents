@@ -1,8 +1,9 @@
 ---
-title: "Tarea 2 - Introducción al análisis de sobrevivencia"
-author: "Andrea Serrano Santos"
-date: '20 de Mayo de 2022'
-output: pdf_document
+title: "Tarea 2 - Análisis de Supervivencia"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r}
