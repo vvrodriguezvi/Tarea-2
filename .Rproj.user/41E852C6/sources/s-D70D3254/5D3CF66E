@@ -1,12 +1,12 @@
 {
-    "id": "D9CC3ED5",
+    "id": "5D3CF66E",
     "path": "~/GitHub/Tarea-2/Tarea2.Rmd",
     "project_path": "Tarea2.Rmd",
     "type": "r_markdown",
-    "hash": "2206141827",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
-    "created": 1653017595708.0,
+    "dirty": true,
+    "created": 1653086242749.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
@@ -18,11 +18,11 @@
         "rmdVisualCollapsedChunks": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1653063237,
+    "lastKnownWriteTime": 1653086863,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1653063237976,
+    "last_content_update": 1653087116739,
     "read_only": false,
     "read_only_alternatives": []
 }

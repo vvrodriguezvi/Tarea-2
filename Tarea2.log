@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.9)  20 MAY 2022 11:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.20)  20 MAY 2022 17:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -444,35 +444,35 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 File: l3backend-pdftex.def 2022-04-20 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count309
 \l__pdf_internal_box=\box72
-)
-No file Tarea2.aux.
+) (./Tarea2.aux)
 \openout1 = `Tarea2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 124.
-LaTeX Font Info:    ... okay on input line 124.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 124.
+Package hyperref Info: Link coloring OFF on input line 125.
+(./Tarea2.out) (./Tarea2.out)
 \@outlinefile=\write4
 \openout4 = `Tarea2.out'.
 
@@ -510,78 +510,116 @@ Package hyperref Info: Link coloring OFF on input line 124.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 126.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 126.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 126.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 126.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 126.
+(Font)              <12> on input line 127.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 126.
+(Font)              <8> on input line 127.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 126.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 126.
+(Font)              <6> on input line 127.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 126.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 127.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 128.
+Overfull \hbox (242.62048pt too wide) in paragraph at lines 127--127
+ [][] 
+ []
+
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 131.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 129.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 132.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 169.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 167.
 (c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf, id=4, 469.755pt x 325.215pt>
-File: Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
-<use Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 189.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[1
+) [1
 
 {c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf, id=16, 469.755pt x 325.215pt>
-File: Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 200.
+<Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf, id=64, 469.755pt x 325.215pt>
+File: Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
+<use Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf>
+Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 205.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [2 <./Tarea2_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf, id=30, 469.755pt x 325.215pt>
+<Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf, id=78, 469.755pt x 325.215pt>
+File: Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 232.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \vbox (0.51761pt too high) detected at line 257
+ []
+
+[3 <./Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf>]
+<Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf, id=92, 469.755pt x 325.215pt>
 File: Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
 <use Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 211.
+Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 259.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[3 <./Tarea2_files/figure-latex/unnamed-chunk-5-1.pdf>] [4 <./Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf>] [5]
-! Undefined control sequence.
-l.368 \subsecion
-                {b. distribución log-normal} 
-Here is how much of TeX's memory you used:
- 12731 strings out of 480242
- 203701 string characters out of 5892005
- 496048 words of memory out of 5000000
- 30422 multiletter control sequences out of 15000+600000
- 503927 words of font info for 56 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 72i,7n,77p,468b,468s stack positions out of 10000i,1000n,20000p,200000b,200000s
+[4 <./Tarea2_files/figure-latex/unnamed-chunk-6-1.pdf>] [5] [6] [7] [8] [9]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 717.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 717.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 717.
+[10] [11] [12] [13]
+<Tarea2_files/figure-latex/unnamed-chunk-26-1.pdf, id=154, 469.755pt x 325.215pt>
+File: Tarea2_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
+<use Tarea2_files/figure-latex/unnamed-chunk-26-1.pdf>
+Package pdftex.def Info: Tarea2_files/figure-latex/unnamed-chunk-26-1.pdf  used on input line 972.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[14 <./Tarea2_files/figure-latex/unnamed-chunk-26-1.pdf>]
+Overfull \hbox (63.65833pt too wide) detected at line 1004
+[] \OMS/lmsy/m/n/10 ^^F \OML/lmm/m/it/10 z[][][] Luego \OT1/lmr/m/n/10 :  [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [][]  \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 829 \OMS/lmsy/m/n/10 ^^F \OML/lmm/m/it/10 z[]\OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 418[]  \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 829 \OMS/lmsy/m/n/10 ^^F \OT1/lmr/m/n/10 1\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 959964 \OMS/lmsy/m/n/10 ^^B \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 418[]  \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 829 \OMS/lmsy/m/n/10 ^^F \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 819265[] (\OMS/lmsy/m/n/10 ^^@\OT1/lmr/m/n/10 1\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 648265\OML/lmm/m/it/10 ;  [] \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 0\OML/lmm/m/it/10 :\OT1/lmr/m/n/10 009735)
+ []
 
-!  ==> Fatal error occurred, no output PDF file produced!
+
+LaTeX Warning: Command \' invalid in math mode on input line 1029.
+
+
+LaTeX Warning: Command \' invalid in math mode on input line 1039.
+
+[15] [16] (./Tarea2.aux)
+Package rerunfilecheck Info: File `Tarea2.out' has not changed.
+(rerunfilecheck)             Checksum: D0B716E5253645953240420432F7B42C;6083.
+ ) 
+Here is how much of TeX's memory you used:
+ 12836 strings out of 480242
+ 206903 string characters out of 5892004
+ 503929 words of memory out of 5000000
+ 30473 multiletter control sequences out of 15000+600000
+ 515934 words of font info for 71 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 72i,10n,77p,2808b,468s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb><c:/Users/Asus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on Tarea2.pdf (16 pages, 367206 bytes).
+PDF statistics:
+ 288 PDF objects out of 1000 (max. 8388607)
+ 221 compressed objects within 3 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+

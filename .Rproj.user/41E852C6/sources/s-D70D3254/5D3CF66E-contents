@@ -1,16 +1,21 @@
 ---
 title: "Tarea 2 - Análisis de Supervivencia"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+author: 
+- "Andrea Serrano Santos" 
+- "Genaro Alfonso Aristizabal Echeverri"
+- "Juan Esteban Sánchez Pulgarín"
+- "Valentina Vanessa Rodriguez Villamizar"
+date: '20 de Mayo de 2022'
+output: pdf_document
 ---
+
+Librerías que se van a utilizar. 
+
 
 ```{r}
 knitr::opts_chunk$set(fig.align = 'center', warning = F, message = F, comment = '')
 ```
 
-Librerías que se van a utilizar. 
 
 ```{r}
 library("survival")
@@ -27,56 +32,43 @@ Lectura de la base de datos y se convierten las variables categoricas a tipo fac
 
 ```{r}
 base <- read.csv("ovarian.csv")
-
 base$resid.ds <- as.factor(base$resid.ds)
-
 base$ecog.ps <- as.factor(base$ecog.ps)
-
 base$rx <- as.factor(base$rx)
-
 ```
 
 Se tiene una base de datos que proviene de un estudio de supervivencia en mujeres con cáncer de ovario, sometidas a dos tratamientos distintos, en el cual se tienen en cuenta siete variables que son: 
 
-   - futime (tiempo de supervivencia en días) 
+   - __futime__ (tiempo de supervivencia en días) 
    
-   - fustat (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla)
+   - **fustat** (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla)
    
-   - age (edad de la paciente en años)
+   - **age** (edad de la paciente en años)
    
-   - resid.ds (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si) 
+   - **resid.ds** (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si) 
    
-   - rx (tratamiento a la que es sometida la paciente) 
+   - **rx** (tratamiento a la que es sometida la paciente) 
    
-   - ecog.ps (puntuación del test, ECOG = 1 es buen estado).
+   - **ecog.ps** (puntuación del test, ECOG = 1 es buen estado).
 
 Primero se mirará unos gráficos descriptivos
 
 Distribución del tiempo de supervivencia en función del tratamiento al que es sometido el paciente.
 
-```{r, echo=FALSE}
+```{r}
 par(pty = 's')
 a <- by(base$resid.ds, base$rx, summary)
-
 means1 <-round(c(by(base$futime, base$rx, mean)), 2)
-
-
 g1 <- ggplot(base, aes(x = futime, group = rx, color = rx, fill = rx))+
   geom_density(alpha = 0.4)+
   geom_vline(xintercept = means1[1], size = 0.9, color = "purple", alpha = 0.54)+
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
   geom_text(aes(x = means1[1]+150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
   geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y=0.00075), size = 3.5, col = "blue")
-
-
-
 g2 <- ggplot(base, aes(x = rx, y = futime, group = rx, color = rx, fill = rx))+
   geom_boxplot(alpha = 0.4)+
   stat_summary(aes(x = rx, y = futime, group = rx, color = rx), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
-
 plot_grid(g1, g2)
-
-
 ```
 
 De los gráficos anteriores se observa que la distribución del tiempo de supervivencia frente al tratamiento al que es sometido el paciente presenta un leve cambio, pero las cajas de los boxplots no se traslapan demasiado, por lo tanto, se podría pensar que la influencia del tratamiento no es estadísticamente significativa.
@@ -84,7 +76,7 @@ De los gráficos anteriores se observa que la distribución del tiempo de superv
 
 Distribución del tiempo de supervivencia en función de la puntuación del test del paciente donde 1 significa buen estado y 2 mal estado.
 
-```{r, echo=FALSE}
+```{r}
 par(pty = 's')
 g3 <-ggplot(base, aes( x = futime, group = ecog.ps, color = ecog.ps, fill = ecog.ps))+
   geom_density(alpha = 0.4) +
@@ -92,24 +84,17 @@ g3 <-ggplot(base, aes( x = futime, group = ecog.ps, color = ecog.ps, fill = ecog
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
   geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
   geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), size = 3.5, col = "blue")
-
-
-
 g4 <- ggplot(base, aes(x = ecog.ps, y = futime, group = ecog.ps, color = ecog.ps, fill = ecog.ps))+
   geom_boxplot(alpha = 0.4)+
   stat_summary(aes(x = ecog.ps, y = futime, group = ecog.ps, color = ecog.ps), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
-
-
 plot_grid(g3, g4)
-
 ```
-
 De los gráficos anteriores se observa que la distribución del tiempo de supervivencia frente a la puntación del test del paciente presenta un leve cambio, pero las cajas de los boxplots no se traslapan demasiado, por lo tanto, se podría pensar que la influencia de la puntación del test no es estadísticamente significativa.
 
 
 Distribución del tiempo de supervivencia en función de la persistencia de la enfermedad tras el tratamiento, 1 = No y 2 = Si.
 
-```{r, echo=FALSE}
+```{r}
 par(pty = 's')
 g5 <-ggplot(base, aes(x = futime, group = resid.ds, color = resid.ds, fill = resid.ds))+
   geom_density(alpha = 0.4)+
@@ -117,32 +102,26 @@ g5 <-ggplot(base, aes(x = futime, group = resid.ds, color = resid.ds, fill = res
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
   geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
   geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), size = 3.5, col = "blue")
-
-
-
 g6 <- ggplot(base, aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds, fill = resid.ds))+
   geom_boxplot(alpha = 0.4)+
   stat_summary(aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
-
-
 plot_grid(g5, g6)
 ```
 
 De los gráficos anteriores se observa que la distribución del tiempo de supervivencia frente a la persistencia de la enfermedad presenta un cambio en la distribución, similarmente las cajas de los boxplots se traslapan, por lo tanto, se podría pensar que la persistencia de la enfermedad es estadísticamente significativa.
 
-\section{1. }
-
-**Ajuste al menos tres modelos parámetricos de la familia AFT y seleccione uno de ellos de acuerdo a algún criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribución, seleccione las variables estadísticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo, evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.**
 
 
-\subsection{a. modelo exponencial}
+## 1. Ajuste al menos tres modelos parámetricos de la familia AFT y seleccione uno de ellos de acuerdo a algún criterio o estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribución, seleccione las variables estadísticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo, evalúe los posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.
+
+
+### a. modelo exponencial
 
 Se ajusta un primer modelo de regresión con distribución exponencial y con todas las covariables 
 
 ```{r}
 #Modelo exponencial con todas las variables
 result1 <- survreg(Surv(futime, fustat) ~ age + resid.ds + rx + ecog.ps, dist = "exponential", data = base) 
-
 summary(result1)
 ```
 
@@ -179,15 +158,13 @@ summary(result4)
 
 Se observa que el modelo es estadísticamente significativo, sin embargo, vamos a probrar con otra distribución. 
 
-\subsecion{b. distribución log-normal}
+### b. distribución log-normal
 
 Se ajusta un primer modelo de regresión con distribución lognormal y con todas las covariables.
 
 ```{r}
-
 result1_logn<-survreg(Surv(futime,fustat)~resid.ds+ecog.ps+rx+age,dist="lognormal",data=base)
 summary(result1_logn)
-
 ```
 
 Del resumen anterior se observa que el modelo es estadísticamente significativo, pero las únicas variables significativas son la edad y rx(tratamiento), por lo tanto, se puede pensar en comenzar a eliminar variables que no son estadísticamente significativas.
@@ -203,100 +180,91 @@ Del resumen anterior se observa que el modelo es estadísticamente significativo
 
 - Eliminando **resid.ds**
 
-```{r, echo=FALSE}
-
+```{r}
 result3_logn<-survreg(Surv(futime,fustat)~rx+age,dist="lognormal",data=base)
 summary(result3_logn)
-
 ```
 
 - Las variables **rx** y **age** son significativas para ajustar el modelo de regresión usando la distribución lognormal, sin embargo, vamos a probar con otra distribución. 
 
-\subsecion{b. distribución log-logistic}
+### c. distribución log-logistic
 
 - Usando todas las variables
 
-```{r, echo=FALSE}
-
+```{r}
 result1_logl<-survreg(Surv(futime,fustat)~resid.ds+ecog.ps+rx+age,dist="loglogistic",data=base)
 summary(result1_logl)
-
 ```
 
 Del resumen anterior se observa que el modelo es estadísticamente significativo, pero las únicas variables significativas son la edad y rx(tratamiento) que tiene una significancia de borde, por lo tanto, se puede pensar en comenzar a eliminar variables que no son estadísticamente significativas.
 
 - Eliminando la variable **ecog.ps** que es la menos significativa.
 
-```{r, echo=FALSE}
-
+```{r}
 result2_logl<-survreg(Surv(futime,fustat)~resid.ds+rx+age,dist="loglogistic",data=base)
 summary(result2_logl)
-
 ```
 
 Del resumen anterior se observa que el modelo es estadísticamente significativo, pero las únicas variables significativas son la edad y rx(tratamiento) que tiene una signifcancia de borde, por lo tanto, se puede pensar en seguir eliminando variables que no son estadísticamente significativas.
 
 - Se elimina **resid.ds**
 
-```{r, echo=FALSE}
-
+```{r}
 result3_logl<-survreg(Surv(futime,fustat)~rx+age,dist="loglogistic",data=base)
 summary(result3_logl)
-
 ```
 
 - Se elimina **rx**, aunque se podria seguir considerando como significancia de borde.
 
-```{r, echo=FALSE}
-
+```{r}
 result3_logl<-survreg(Surv(futime,fustat)~age,dist="loglogistic",data=base)
 summary(result3_logl)
-
 ```
 
 - Solo la variable **age** es significativa para ajustar el modelo de regresión usando la distribución loglogistic.
 
-Ahora se van a evaluar los modelos con el criterio AIC y BIC
+**Ahora se van a evaluar los modelos con el criterio AIC y BIC**
 
 ```{r}
-criterioAIC <- AIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
-
-criterioBIC <- BIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
+#Renombrando modelos
+mod_exp_completo <- result1
+mod_logl_completo <- result1_logl
+mod_logn_completo <- result1_logn
+mod_exp_2 <- result2
+mod_logl_2 <- result2_logl
+mod_logn_2 <- result2_logn
+mod_exp_3 <- result3
+mod_logl_3 <- result3_logl
+mod_logn_3 <- result3_logn
+mod_exp_4 <- result4
+criterioAIC <- AIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
+criterioBIC <- BIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
 ```
 
 
 ```{r}
 library(kableExtra)
-
-criterioAIC
-
-criterioBIC
-
 tabla <- cbind(criterioAIC, criterioBIC)
-
 kable(tabla[ ,c(1, 2, 4)]) %>%
   kable_styling(full_width = F)
 ```
 
 De la tabla se observa que el modelo tres con distribución lognormal es el que cuenta con menor BIC, pero en el otro criterio es el segundo modelo con menor AIC, entonces, por el criterio de parsimonia se escoge el modelo tres con distribución lognormal ya que cuenta con pocos parámetros y las diferencias de los criterios entre los modelos no es muy grande. 
 
-Evaluando interacción en el modelo 
+**Evaluando interacción en el modelo**
 
 ```{r}
 #Interaction
-
 resultFinal <- survreg(Surv(futime, fustat) ~ rx*age, dist = "lognormal", data = base)
 summary(resultFinal)
-
 ```
 
 Se observa que la interacción en el modelo no es significativa, por lo tanto, los efectos principales tanto de la edad como rx son estadísticamente validos. 
 
-Evaluando un posible efecto de confusión con la variable **resid.ds**
+**Evaluando un posible efecto de confusión con la variable resid.ds**
 
 ```{r}
 #Confounding
-
 resultConf <- survreg(Surv(futime, fustat) ~ rx + age + resid.ds, dist = "lognormal", data = base)
 summary(resultConf)
 ```
@@ -311,22 +279,15 @@ Evaluando confusión.
 
 ```{r}
 #To evaluate confounding use abs((beta_unadjusted-beta_adjusted)/beta_unadjusted)
-
 rxCon <- abs((0.6904 - 0.6030)/0.6904)*100
 ageCon <- abs((-0.0765 - -0.0677)/-0.0765)*100
-
 rxCon
 ageCon
-
-
-
-#Conclusion: Renal is confounding the effect of treat, so the model with both
-#treat and renal must be reported
 ```
 
 Puesto que el cambio porcentual en las estimaciones de ambos parámetros después de considerar el efecto de __resid.ds__ es mayor al 10%, se puede argumentar que la variable resid.ds es una variable de confusión y por lo tanto, debe ser incluida en el modelo.
 
-Interpretación del modelo seleccionado. 
+**Interpretación del modelo seleccionado.**
 
 ```{r}
 summary(resultConf)
@@ -334,19 +295,16 @@ summary(resultConf)
 
 Del resumen se observa que el modelo lognormal es estadísticamente significativo para explicar el tiempo de supervivencia de las mujeres con cáncer de ovario, el signo positivo de la estimación del coeficiente asociado a **rx** indica que pertenecer al grupo 2, o sea, el segundo tratamiento representa un aumento en el tiempo de supervivencia, similarmente, para la variable **edad**, la estimación del beta es negativo, lo que indica es que a mayor edad el tiempo de supervivencia disminuye, por ultimo, para la variable **resid.ds** el coeficiente es negativo, indicando así que pertenecer al segundo grupo disminuye la supervivencia, es decir, si la enfermedad persiste el tiempo de supervivencia disminuye. 
 
-\section{2.}
+## Punto 2
 
-- Los siguientes datos se refieren a dos grupos de mujeres con ćancer de ovario.
+Los siguientes datos se refieren a dos grupos de mujeres con cáncer de ovario.
 
-\subsection{a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard}
+### a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard
 
-```{r, echo =FALSE}
-
+```{r }
 base2 <- read.csv2("Tumor.csv")
 base2$Grupo <- as.factor(base2$Grupo)
-
 #Implementando un modelo de regresion Weibull
-
 r2 <- survreg(Surv(Tiempo, Status) ~ Grupo, dist = "weibull", data = base2)
 summary(r2)
 ```
@@ -356,12 +314,10 @@ Se observa que el modelo es estadísticamente significativo y que la variable gr
 
 Grafico de la función hazard
 
-```{r, echo=FALSE}
+```{r}
 require(flexsurv)
-
 flexgg <- flexsurvreg(Surv(Tiempo,Status) ~ Grupo, dist="weibull", data=base2) %>% 
     summary(type = "hazard") %>% data.frame
-
 ggplot() + geom_line(aes(x = Grupo.1.time, y = Grupo.1.est, col = "red"), data = flexgg) + 
   geom_line(aes(x = Grupo.2.time, y = Grupo.2.est, col = "blue"), data = flexgg) + 
   labs(title='Función hazard para el cáncer de ovario',
@@ -371,7 +327,7 @@ ggplot() + geom_line(aes(x = Grupo.1.time, y = Grupo.1.est, col = "red"), data =
 
 Del grafico anterior se observa que la función hazard estimada es creciente, se observa que crece más rapido en los primeros días, por lo tanto, la probabilidad de que falle aumenta más rápido en los primero días y luego sigue creciendo, pero de manera más suave, también se observa que el grupo 1 tiene mayor riesgo que el grupo 2. 
 
-\subsection{b) Con estos datos y sin usar el log-rank test pruebe la hipótesis $H_0~:S_1(t) = S_2(t)$ para todo t. Use un $\alpha = 0,05$ ¿Qué se puede concluir? ¿Es plausible la conclusión?}
+### b) Con estos datos y sin usar el log-rank test pruebe la hipótesis $H_0~:S_1(t) = S_2(t)$ para todo t. Use un $\alpha = 0,05$ ¿Qué se puede concluir? ¿Es plausible la conclusión?
 
 Del resumen del modelo visto previamente se sabe que el coeficiente estimado para la variable grupo es de -0.829 unidades en el logaritmo del tiempo de supervivencia, es decir estar en el grupo 2, disminuye en -0.829 unidades el logaritmo de la supervivencia, para probar que pertenecer a un grupo u otro afecta el tiempo de supervivencia se construirá un intervalo de confianza. 
 
@@ -392,7 +348,9 @@ Como el intervalo no contiene al cero, entonces, con una confianza del 95% se mu
 
 Esta conclusión es bastante lógica, ya que cuando una persona tiene un tumor de alto grado se espera que sus consecuencias medicas sean más severas que cuando el tumor es de bajo grado.
 
-\section {3. } Suponga que una unidad puede fallar por dos causas. Por ejemplo, una persona puede morir ya sea por una enfermedad del corazón o por una enfermedad de riñón. Sean
+## Punto 3
+
+Suponga que una unidad puede fallar por dos causas. Por ejemplo, una persona puede morir ya sea por una enfermedad del corazón o por una enfermedad de riñón. Sean
 
 $Y_1$ = Tiempo de supervivencia con enfermedad del corazón
 
@@ -420,9 +378,11 @@ $$ f(t) = \lambda_1 \lambda_2 e^{-(\lambda_1 + \lambda_2) t}$$
 
 En términos de la función de Hazard la distribución conjunta encontrada se puede interpretar como que las enfermedades tienen un efecto aditivo, es decir, entre mas enfermedades tenga el paciente más probable es que fallezca temprano, las enfermedades entonces “compiten” para ver cual se manifiesta primero en el paciente.
 
-\section {4. }
+
+## Punto 4
 
 Pruebe lo siguiente si log $T \sim normal(\mu, \sigma)$ entonces $T \sim lognormal(\mu, \sigma)$.
+
 
 Sea $Y=T$ entonces $x=ln(t)$ y $\frac{dx}{dy} = \frac{1}{x}$
 
@@ -432,14 +392,44 @@ $$g(y) = f(ln(t)) | (1/t) | = f(x) = \frac{1} {\sqrt{2 \pi} \sigma} e^{- \frac{(
 
 Entonces $T \sim lognormal(\mu, \sigma)$
 
-\section {5. }
+## Punto 5
 
 Pruebe lo siguiente si $T \sim lognormal(\mu, \sigma)$ entonces log$T \sim lognormal(\mu, \sigma)$.
 
-\section {6. }
+Tenemos que $y = log(t)$, implica que $t = e^y$ y por lo tanto, $\frac{dt}{dy} = e^y$. Como $f(t) = \frac{1}{\sqrt{2\pi}\sigma t}e^{-0.5\left(\frac{log(t-\mu)}{\sigma}\right)^2}$
+
+Usando la técnica de cambio de variable 
+$$g(y) = f(e^y)e^y \\
+= \frac{1}{\sqrt{2\pi}\sigma e^y}e^{-0.5\left(\frac{log(e^y-\mu)}{\sigma}\right)^2}e^y \\ 
+= \frac{1}{\sqrt{2\pi}\sigma}e^{-0.5\left(\frac{log(e^y-\mu)}{\sigma}\right)^2} \\ 
+= \underbrace{\frac{1}{\sqrt{2\pi} \sigma} e^{-\frac{log(t - \mu)^2}{2b^2}}}_{\text{función de densidad de una normal}}$$
+
+Entonces $Y = log(T) \sim N(\mu, \sigma)$
+
+## Punto 6
 
 Pruebe lo siguiente si $T \sim loglogis(\mu, \sigma)$ entonces log$T \sim logis(\mu, \sigma)$.
+ 
+Sea $y = log(t)$ entonces aplicando exponencial a ambos lados tenemos que $t = e^y$ y $\frac{dt}{dy} = e^y$. Y puesto que:
 
-\section {7. }
+$$ f(t) = \frac{1}{\sigma t}\frac{e^{\frac{logt- \mu}{\sigma}}}{(1+e^{\frac{logt- \mu}{\sigma}})^2}$$
+Aplicando la técnica de cambio de variable se tiene lo siguente:
+
+$$g(y) = f(e^y)e^y \\
+= \frac{1}{\sigma e^y}\frac{e^{\frac{log e^y- \mu}{\sigma}}}{(1+e^{\frac{log e^y - \mu}{\sigma}})^2}e^y \\ 
+= \frac{1}{\sigma }\frac{e^{\frac{log e^y- \mu}{\sigma}}}{(1+e^{\frac{log e^y - \mu}{\sigma}})^2} \\ = \underbrace{\frac{1}{\sigma }\frac{e^{\frac{t- \mu}{\sigma}}}{(1+e^{\frac{t - \mu}{\sigma}})^2} }_{\text{función de densidad de una dist. Logistica}}$$
+
+
+## Punto 7
 
 Pruebe lo siguiente si log$T \sim logis(\mu, \sigma)$ entonces $T \sim loglogis(\mu, \sigma)$.
+
+
+
+
+
+
+
+
+
+
