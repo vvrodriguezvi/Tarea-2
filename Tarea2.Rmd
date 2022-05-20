@@ -421,7 +421,6 @@ En términos de la función de Hazard la distribución conjunta encontrada se pu
 
 Pruebe lo siguiente si log $T \sim normal(\mu, \sigma)$ entonces $T \sim lognormal(\mu, \sigma)$.
 
-Pruebe lo siguiente si log $T \sim normal(\mu, \sigma)$ entonces $T \sim lognormal(\mu, \sigma)$.
 
 Sea $Y=T$ entonces $x=ln(t)$ y $\frac{dx}{dy} = \frac{1}{x}$
 
