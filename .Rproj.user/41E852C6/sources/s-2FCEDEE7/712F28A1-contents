@@ -1,0 +1,226 @@
+---
+title: "Tarea 2 - Introducción al análisis de sobrevivencia"
+author: "Andrea Serrano Santos"
+date: '20 de Mayo de 2022'
+output: pdf_document
+---
+
+```{r, message=FALSE, warning=FALSE}
+#librerias
+library(survival)
+library(splines)
+library(knitr)
+```
+
+\section {Punto 1} Usando R o SAS y el conjunto de datos anexo (ovarian.csv) ajuste al menos tres modelos paramétricos de la familia AFT y seleccione uno de ellos de acuerdo a algún criterio estadístico de los vistos en clase. Inicialmente, debe usar todas las covariables, y secuencialmente y con cada distribución, seleccione las variables estadísticamente importantes de acuerdo a su valor-p. Una vez seleccione un modelo, evalué posibles efectos confusores de las variables que no fueron incluidas en el modelo (si es que aplica) e interacciones. INTERPRETE.
+
+```{r}
+#Datos
+kable(ovarian)
+data(cancer, package="survival")
+```
+
+\subsection {Implementación de varios modelos}
+
+\subsubsection {Modelo de regresión Exponencial}
+
+```{r}
+mod_exp <- survreg(Surv(futime, fustat) ~ factor(resid.ds) + factor(rx) + factor(ecog.ps) + 
+                     age, dist="exponential", data=ovarian)
+summary(mod_exp)
+```
+
+Entones al nivel de $\alpha = 0.1$ sacamos una por una las variables que no son significativas para el modelo, o sea, implementa una eliminación hacia atrás, al final la única variable significativa es la edad.
+
+```{r}
+mod_exp <- survreg(Surv(futime, fustat) ~ age, dist="exponential", data=ovarian)
+summary(mod_exp)
+```
+
+\subsubsection {Modelo de regresión Lognormal}
+
+```{r}
+mod_ln <- survreg(Surv(futime, fustat) ~ factor(resid.ds) + factor(rx) + factor(ecog.ps) +
+                    age, dist="lognormal", data=ovarian)
+summary(mod_ln)
+```
+
+Entones al nivel de $\alpha = 0.1$ sacamos una por una las variables que no son significativas para el modelo, o sea, implementa una eliminación hacia atrás, al final quedan las variables rx y edad
+
+```{r}
+mod_ln <- survreg(Surv(futime, fustat) ~ factor(rx) + age, dist="lognormal", data=ovarian)
+summary(mod_ln)
+```
+
+\subsubsection {Modelo de regresión Loglogistico}
+
+```{r}
+mod_ll <- survreg(Surv(futime, fustat) ~ factor(resid.ds) + factor(rx) + factor(ecog.ps) +
+                    age, dist="loglogistic", data=ovarian)
+summary(mod_ll)
+```
+
+Entones al nivel de $\alpha = 0.1$ sacamos una por una las variables que no son significativas para el modelo, o sea, implementa una eliminación hacia atrás, al final la única variable significativa es la edad.
+
+```{r}
+mod_ll <- survreg(Surv(futime, fustat) ~ age, dist="loglogistic", data=ovarian)
+summary(mod_ll)
+```
+
+\subsection {Comparando modelos}
+
+```{r}
+kable(AIC(mod_exp, mod_ln, mod_ll))
+```
+
+```{r}
+kable(BIC(mod_exp, mod_ln, mod_ll))
+```
+
+Tanto con el criterio de AIC como BIC el mejor modelo es el Lognormal
+
+\subsection {Efectos de confusión}
+
+Vamos a evaluar el efecto confusor de las variables grupo de tratamiento y estado de rendimiento de ECOG
+
+```{r}
+mod_ln <- survreg(Surv(futime, fustat) ~ factor(rx) + age, dist="lognormal", data=ovarian)
+summary(mod_ln)
+```
+
+El parámetro estimado para resid.ds sin la covariable rx es -1.202 y con la variable rx -1.0877
+
+$$ | \frac{-1.202+1.0877}{-1.0877} | \times 100\%  = 0.1050841$$
+
+El parámetro estimado para resid.ds sin la covariable ecog.ps es -1.202 y con la variable ecog.ps -1.3111
+
+$$ | \frac{-1.202+1.3111}{-1.3111} | \times 100\%  = 0.08321257$$
+
+Puesto que el cambio porcentual en la estimación del parámetro resid.ds después de considerar el efecto de rx es mayor al 10% se puede argumentar que rx es una variable de confusión. 
+
+\subsection {Interacciones}
+
+```{r}
+mod_ln <- survreg(Surv(futime, fustat) ~ factor(resid.ds) * factor(rx) + factor(resid.ds) * factor(ecog.ps) + factor(rx) * factor(ecog.ps) + age * factor(resid.ds) + age * factor(rx) + age * factor(ecog.ps), dist="lognormal", data=ovarian)
+summary(mod_ln)
+```
+
+Ninguna interacción es significativa
+
+\section {Punto 2} Los siguientes datos se refieren a dos grupos de mujeres con cáncer de ovario. En total hay 34 mujeres. Cada número representa el tiempo de progreso de la enfermedad en días. El símbolo + representa un dato censurado.
+
+```{r}
+tiempo <- c(28, 89, 175, 195, 309, 377, 393, 421, 447, 462, 709, 744, 770, 1106, 1206, 34, 88, 
+            137, 199, 280, 291, 299, 300, 309, 351, 358, 369, 369, 370, 375, 382, 429, 451, 1119)
+grupo <- c(rep(1, 15), rep(2, 19))
+status <- c(rep(1, 5), rep(0, 4), 1, rep(0, 5), rep(1, 6), rep(0, 2), rep(1, 8), 0, 1, 0)
+```
+
+a) Ajuste un modelo Weibull a estos datos considerando como variable independiente la variable ’grupo’ que en este caso tiene dos niveles: 1 y 2. Usando las respectivas estimaciones Grafique la función hazard. INTERPRETE.
+
+```{r}
+mod_wei <- survreg(Surv(tiempo, status) ~ factor(grupo), dist="weibull")
+summary(mod_wei)
+```
+
+La función Hazard de una Weibull
+
+$$h(t; \beta) = \left( \frac{1}{\sigma} e^{\frac{1}{\sigma} t \frac{1}{\sigma}-1} \right) e^{\frac{-1}{\sigma}} \sum_{j=1}^{k} \beta_j x_j$$
+
+$$h(t; \beta) = h_0(t) e^{\frac{-1}{\sigma}} \sum_{j=1}^{k} \beta_j x_j$$
+
+```{r}
+#Parametros
+sigma <- mod_wei$scale
+beta1 <- as.numeric(mod_wei$coefficients[2])
+beta0 <- as.numeric(mod_wei$coefficients[1])
+```
+
+```{r}
+t <- 1:1120
+h_t1 <- ((1/sigma)*exp(-beta0/sigma)*t^(1/sigma-1))*exp(-beta0/sigma)
+h_t0 <- ((1/sigma)*exp(-beta0/sigma)*t^(1/sigma-1))
+plot(t, h_t1, col="blue", ylim = c(0, 0.0015), type = "l", xlab = "tiempo", ylab = "valor", main = "Función hazard de una Weibull")
+lines(t, h_t0, col="red")
+```
+
+b) Con estos datos y sin usar el log-rank test pruebe la hipótesis $H_0 : S_1(t) = S_2(t)$ para todo $t$. Use un $\alpha = 0,05$ ¿Que se puede concluir?¿Es plausible la conclusión?
+
+```{r}
+survdiff(Surv(tiempo, status) ~ factor(grupo))
+```
+
+Como el valor-p es 0.2 con un alpha de 0.05 no se rechaza la hipótesis nula, es decir, no existe evidencia suficiente para sugerir que las curvas de supervivencia de ambos grupos son diferentes.
+
+```{r}
+boxplot(tiempo ~ grupo)
+```
+
+La grafica boxplot anterior confirma la hipótesis de las curvas de supervivencia de ambos grupos son iguales, es decir, el tiempo de supervivencia para ambos grupos de mujeres con cáncer de ovario es igual.
+
+\section {Punto 3} Suponga que una unidad puede fallar por dos causas. Por ejemplo, una persona puede morir ya sea por una enfermedad del corazón o por una enfermedad de riñón. Sean
+
+$Y_1$ = Tiempo de supervivencia con enfermedad del corazón
+
+$Y_2$ = Tiempo de supervivencia con enfermedad del riñón
+
+La pregunta de interés es ¿Cuál de las dos enfermedades causarán primero la muerte a un paciente? Sea $T = mín (Y_1, Y_2)$. Suponga que $Y_1 \sim exp(\lambda_1)$ y $Y_2 \sim exp(\lambda_2)$ y que $Y_1$ y $Y_2$ son independientes. Bajo estas condiciones halle la f.d.p de la v.a. $T$. ¿Qué se puede decir del hazard de T?
+
+Sea la función de densidad de probabilidad de una exponencial de una exponencial
+
+$$ f(t) = \lambda e^{-\lambda t}$$
+
+Entonces la función conjunta de $T = mín (Y_1, Y_2)$ es
+
+$$ F(t) = P(min(Y1,Y2)<t) = 1- P(min(Y1,Y2)>t)$$
+$$ F(t) = 1-P(Y1>t \wedge Y2>t) = 1- (P(Y1>t) * P(Y2>t))$$
+$$ F(t) = 1 - \left( \int_{-\infty}^{t} \lambda_1 e^{-\lambda_1 t} dt * \int_{-\infty}^{t} \lambda_2 e^{-\lambda_2 t} dt \right)$$
+
+$$ F(t) = 1 - \lambda_1 \lambda_2 \left( \int_{-\infty}^{t} e^{-(\lambda_1 + \lambda_2) t} dt \right)$$
+$$ F(t) = 1 - \frac{\lambda_1 \lambda_2}{\lambda_1 + \lambda_2} e^{-(\lambda_1 + \lambda_2) t} $$
+
+Entonces la f.d.p de la v.a. T es
+
+$$f(t) = \frac{d}{dt} \left( 1 - \frac{\lambda_1 \lambda_2}{\lambda_1 + \lambda_2} e^{-(\lambda_1 + \lambda_2) t} \right)$$
+$$ f(t) = \lambda_1 \lambda_2 e^{-(\lambda_1 + \lambda_2) t}$$
+
+En términos de la función de Hazard la distribución conjunta encontrada se puede interpretar como que las enfermedades tienen un efecto aditivo, es decir, entre mas enfermedades tenga el paciente más probable es que fallezca temprano, las enfermedades entonces “compiten” para ver cual se manifiesta primero en el paciente.
+
+\section {Punto 4}
+
+Pruebe lo siguiente si log $T \sim normal(\mu, \sigma)$ entonces $T \sim lognormal(\mu, \sigma)$.
+
+Sea $Y=T$ entonces $x=ln(t)$ y $\frac{dx}{dy} = \frac{1}{x}$
+
+Como $f(x) = \frac{1} {\sqrt{2 \pi} \sigma} e^{- \frac{(t - \mu)^2} {2 \sigma^2}}$ para $x>0$, usando el método de cambio de variable
+
+$$g(y) = f(ln(t)) | (1/t) | = f(x) = \frac{1} {\sqrt{2 \pi} \sigma} e^{- \frac{(ln(t) - \mu)^2} {2 \sigma^2}} \frac{1} {t}$$
+
+Entonces $T \sim lognormal(\mu, \sigma)$
+
+\section {Punto 5}
+
+Pruebe lo siguiente si $T \sim lognormal(\mu, \sigma)$ entonces log$T \sim lognormal(\mu, \sigma)$.
+
+\section {Punto 6}
+
+Pruebe lo siguiente si $T \sim loglogis(\mu, \sigma)$ entonces log$T \sim logis(\mu, \sigma)$.
+
+\section {Punto 7}
+
+Pruebe lo siguiente si log$T \sim logis(\mu, \sigma)$ entonces $T \sim loglogis(\mu, \sigma)$.
+
+
+
+
+
+
+
+
+
+\section {Referencias}
+
+
+
+
+

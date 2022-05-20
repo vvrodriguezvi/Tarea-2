@@ -1,0 +1,306 @@
+---
+title: "Tarea 3 - Grupo 4 - Estadística No Paramétrica"
+author: 
+- "Valentina Bula Charry" 
+- "Andrea Serrano Santos"
+- "Santiago Zuluaga Ayala"
+date: "Octubre de 2020"
+output: pdf_document
+fontsize: 12pt
+papersize: letter
+geometry: margin = 0.9in
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{multirow}
+  - \usepackage{array}
+  - \usepackage{float}
+---
+
+\subsection{Punto 5.1.4}
+
+Se administró la dieta A a cuatro niñas con sobrepeso y la dieta B a otras cinco niñas con sobrepeso, con las siguientes pérdidas de peso observadas. Encuentre un intervalo de confianza del 90% para la diferencia media en la efectividad de las dos dietas.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{cc}
+Dieta & Pérdida de peso (libras) \\ \hline
+A     & 7, 2, -1, 4              \\
+B     & 6, 5, 2, 8, 3            \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\textbf{Solución.} Se busa un intervalo de confianza del 90% para la diferencia entre los tipos de dieta, más específicamente para E[X] - E[Y] donde X se refiere a la dieta A, Y se refiere a la dieta B.
+
+Para $n = 4, m = 4, \alpha = 0.1$
+
+De la tabla A7, $w_{0.1/2}=13$
+
+$$ k = w_{0.05} - \dfrac{n(n+1)}{2} = 13- \dfrac{4 \cdot 5}{2} = 3$$
+$$ r - k - 1 = n\cdot m - 3 - 1 = 18$$
+Así, un intervalo de confianza para E[X] - E[Y] será $(d^{(3)}, d^{(18)})$, que obtenemos:
+
+```{r}
+X <- c(7, 2, -1, 4)   # A
+Y <- c(6, 5, 2, 8, 3) # B
+
+tabla <- expand.grid(X = X, 
+                     Y = Y)         # Producto cartesiano
+
+
+# Diferencias
+tabla$dif <- tabla$X - tabla$Y
+
+# Ordenamiento de tabla
+tabla_ordenada <- tabla[order(tabla$dif),]
+
+
+head(tabla_ordenada)
+
+# Intervalo de confianza
+LI <- tabla_ordenada$dif[3]    # k = 3
+LI
+LS <- tabla_ordenada$dif[18]    # r - k - 1 = 18
+LS
+```
+Así, un intervalo de confianza al 90% para la diferencia media en la efectividad de las dietas es (-6, 2), esto implica que estadísticamente no existe evidencia para afirmar que hay diferencia entre la efectividad de estas dietas (ya que el intervalo contiene al 0).
+
+\subsection{Punto 5.2.3} La cantidad de daño al suelo en una granja causado por el agua y el viento se examina para muchas granjas diferentes. Se constata el mismo tipo de cultivo practicado en cada finca, con los siguientes resultados
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{ccccc}
+\multicolumn{1}{l}{} & \multicolumn{4}{c}{Tipo de agricultura}       \\ \cline{2-5} 
+                     & Labranza   mínima & Contorno & Terraza & Otro \\ \hline
+Cantidad de daño     & \multicolumn{4}{c}{Número de granjas}         \\ \hline
+Sin daño             & 17                & 19       & 4       & 21   \\
+Daño leve            & 3                 & 10       & 4       & 42   \\
+Daño moderado        & 0                 & 2        & 2       & 34   \\
+Daños severos        & 0                 & 0        & 2       & 6    \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+¿El tipo de agricultura afecta el grado de daño? Si es así, ¿qué tipos de agricultura son significativamente diferentes?
+
+\textbf{Solución} Hipótesis
+
+\begin{center}
+
+$H_0$: El tipo de agricultura no afecta la cantidad de daño
+
+$H_1$: Algunos tipos de agricultura afectan la cantidad de daño
+
+\end{center}
+
+Se tiene que los rangos en que son categorizados los niveles de daño no importan, siempre y estén en orden (métodos basados en rangos), por lo tanto, se elige un (1, 2, 3, 4) donde 1 es el nivel de daño más bajo (No damage) y 4 es el nivel de daño más alto (severe damage).
+
+```{r}
+library(agricolae)
+
+# Niveles de daños
+
+ND <- 1           # No damage
+SD <- 2           # Slight damage
+MD <- 3           # Moderate damage
+HD <- 4           # Severe damage
+```
+
+Se generan vectores con las observaciones de la tabla para cada uno de los tipos de agricultura.
+
+```{r}
+
+MT <- c(rep(ND, 17), 
+        rep(SD, 3), 
+        rep(MD, 0),
+        rep(HD, 0))   # Minimum tillage
+
+# Este vector indica que por el método de minimum tillage (mínima labranza): 
+# 17 granjas registraron un daño nivel 1 (no damage)
+# 3 granjas registraron un daño nivel 2 (slight damage) 
+# 0 granjas registraron un daño de otro nivel (moderate o severe damage)
+MT   
+
+C <-  c(rep(ND, 19), 
+        rep(SD, 10), 
+        rep(MD, 2),
+        rep(HD, 0))  # Contour
+C
+
+Te <- c(rep(ND, 4), 
+        rep(SD, 4), 
+        rep(MD, 2),
+        rep(HD, 2))   # Terrace
+Te
+
+Ot <- c(rep(ND, 21), 
+        rep(SD, 42), 
+        rep(MD, 34),
+        rep(HD, 6))   # Other
+Ot
+```
+
+Se procede a realizar el test de Krushkall-Wallis para comparación de medias
+
+```{r}
+x <- c(MT, C, Te, Ot)
+
+g <- c(rep("MT", length(MT)),  
+       rep("C", length(C)),
+       rep("Te", length(Te)),
+       rep("Ot", length(Ot)))
+
+krus <- kruskal(x, g,
+                group = FALSE # Fueron establecidos previamente
+                )
+krus$statistics
+krus$comparison
+```
+
+Se obtiene un valor de 40.83 para el estadístico de prueba y un valor p < 0.001, lo que apoya fuertemente la hipótesis alternativa de que algunos tipos de agricultura afectan la cantidad de daño.
+
+A un nivel de significacia de 0.05, existen diferencias entre:
+
+* Método de contorno y otros métodos (***)
+* Método de contorno y terraza (*)
+* Método de labranza mínima y terraza (***)
+* Método de labranza mínima y otros métodos (***)
+
+\subsection{Punto 5.3.4} Una clase de inversión se dividió en tres grupos de estudiantes. Un grupo recibió instrucciones de invertir en bonos, el segundo en acciones de primera línea y el tercero en emisiones especulativas. Cada estudiante "invirtió" (solo en papel) $ 10,000 y evaluó la ganancia o pérdida hipotética al final de 3 meses con los siguientes resultados
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{ccc}
+Bonos & Primera línea & Especulativas \\ \hline
+146   & 176           & -540          \\
+180   & 110           & 1052          \\
+192   & 212           & 642           \\
+185   & 108           & -281          \\
+153   & 196           & 67            \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+¿Es significativa la diferencia de varianza? Si es así, ¿qué grupos son significativamente diferentes?
+
+\textbf{Solución}. 
+Se aplica test para comparar las varianzas de mas de 2 poblaciones. Partiendo de las siguientes hipotesis:
+\begin{center}
+
+$H_0$: Las tres inversiones tienen la misma variabilidad.
+
+$H_1$: Alguna de las tres inversiones tinen diferente variabilidad.
+
+\end{center}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{cccccc}
+Bonos & Primera línea & Especulativas & $U_{1i}$ & $U_{1i}$ & $U_{1i}$ \\ \hline
+146   & 176           & -540          & 25.2     & 15.6     & 728      \\
+180   & 110           & 1052          & 88       & 50.4     & 864      \\
+192   & 212           & 642           & 20.8     & 51.6     & 454      \\
+185   & 108           & -281          & 13.8     & 52.4     & 464      \\
+153   & 196           & 67            & 18.2     & 35.6     & 121      \\ 
+$\bar{x}_1 = 171.2$ & $\bar{x}_2 = 160.4$ & $\bar{x}_3 = 188$ & $S_1 = 82$ & $S_2 = 303$ & $S_3 = 8553$ \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Luego, como NO existen empates:
+
+$N=15$
+
+$\bar{S}=72.33$
+
+$D^2=5414.66$
+
+Aproximando:
+$T_2 \sim X^2(k-1)$ con  $k=3$ (3 muestras)
+
+$T_2 \sim X^2(2)$
+
+$\alpha=0.05$
+
+$X^2(2)=5991$
+
+Luego $T_2=16.148$
+
+$Valor-P: P(X^2(2)\geqslant T_2) = 0.0031 \leqslant 0.05$
+
+Por lo tanto se rechaza $H_0$. Esto indica que existe evidencia muestral suficiente para sugerir que las tres inversiones tienen diferente variabilidad.
+
+Comparaciones múltiples:
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{cccc}
+Poblaciones  & $(\frac{S_i}{n_i})-(\frac{S_j}{n_j})$ &   & $183.4606\ast \sqrt[]{\frac{1}{n_i}+\frac{1}{n_j}}$  \\ \hline
+1,2          & 44.2                                  & < &  116.03      \\
+1.3          & 154.6                                 & > &  116.03       \\
+2,3          & 110.4                                 & < &  116.03        \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Se concluye que la varianza de la inversión en Bonos y Especulativas, es diferente a la de la inversión en Primera Linea, con un nivel de $\alpha=0.05$. Luego, los grupos significativamente diferentes son: Bonos y Especulativas.
+
+\subsection{Punto 5.4.3}
+
+Se asigna un nuevo trabajador a una máquina que fabrica tornillos. Cada día se examina una muestra de tornillos y se registra el porcentaje defectuoso. ¿Los siguientes datos indican una mejora significativa a lo largo del tiempo para ese trabajador?
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{c|ccccccccccccc}
+Día        & 1   & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9   & 10  & 11 & 12 & 13  \\ \hline
+Porcentaje & 6.1 & 7.5 & 7.7 & 5.9 & 5.2 & 6.1 & 5.3 & 4.5 & 4.9 & 4.6 & 3  & 4  & 3.7
+\end{tabular}
+\end{center}
+\end{table}
+
+\textbf{Solución}. Una mejora para el trabajador implica que el porcentaje de tornillos defectuosos se reduzca a lo largo del tiempo, es decir, que para valores pequeños del $X =$ día hagan pareja con valores grandes de $Y =$ porcentaje; y viceversa. 
+
+\begin{center}
+
+$H_0$: Los $X_i$ y $Y_i$ son mutuamente independiente
+
+$H_1$: Hay una tendencia para que los valores pequeños de X hagan pareja con los valores grandes de Y y viceversa.
+
+\end{center}
+
+Inicialmente, hagamos un análisis exploratorio.
+
+```{r}
+X <- c(1:13)          # Día 
+Y <- c(6.1, 7.5, 7.7, 5.9, 5.2, 6.1, 5.3, 4.5, 4.9, 4.6, 3, 4, 3.7)
+plot(X, Y,
+     xlab = "Día",
+     ylab = "Porcentaje de tornillos defectuosos",
+     las = 1)
+```
+
+El gráfico indica que a primera vista, es plausible una correlación negativa. Hagamos los test que indica el ejercicio.
+
+a)	Use el coeficiente p- de Spearman
+
+Utilizamos R:
+
+```{r warning=FALSE}
+test_s <- cor.test(X, Y, alternative = "less", method = "spearman")
+test_s$estimate
+test_s$p.value
+```
+
+b)	Use el coeficiente Tau de Kendall
+
+Para el Tau de Kendall, las observaciones discortantes serán aquellas que apoyan la hipótesis alternativa ya que indicarán que la pendiente es negativa.
+
+```{r warning=FALSE}
+test_k <- cor.test(X, Y, alternative = "less", method="kendall")
+test_k$estimate
+test_k$p.value
+```
+En ambos test obtenemos valores estimados para los coeficientes menores a -0.7, lo que indica una fuerte correlación negativa, además, los valores p < 0.001 indican que a nivel estadístico es posible afirmar que ¡a lo largo del tiempo el trabajo está mejorando!
+
+
+
+

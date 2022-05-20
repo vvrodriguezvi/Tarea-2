@@ -36,7 +36,8 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Tarea 2 - Análisis de Supervivencia},
+  pdftitle={Tarea 2 - Introducción al análisis de sobrevivencia},
+  pdfauthor={Andrea Serrano Santos},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -116,20 +117,20 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Tarea 2 - Análisis de Supervivencia}
-\author{}
-\date{\vspace{-2.5em}}
+\title{Tarea 2 - Introducción al análisis de sobrevivencia}
+\author{Andrea Serrano Santos}
+\date{20 de Mayo de 2022}
 
 \begin{document}
 \maketitle
-
-Librerías que se van a utilizar.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{fig.align =} \StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{warning =}\NormalTok{ F, }\AttributeTok{message =}\NormalTok{ F, }\AttributeTok{comment =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+Librerías que se van a utilizar.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -940,5 +941,76 @@ de alto grado.
 Esta conclusión es bastante lógica, ya que cuando una persona tiene un
 tumor de alto grado se espera que sus consecuencias medicas sean más
 severas que cuando el tumor es de bajo grado.
+
+\section {3. }
+
+Suponga que una unidad puede fallar por dos causas. Por ejemplo, una
+persona puede morir ya sea por una enfermedad del corazón o por una
+enfermedad de riñón. Sean
+
+\(Y_1\) = Tiempo de supervivencia con enfermedad del corazón
+
+\(Y_2\) = Tiempo de supervivencia con enfermedad del riñón
+
+La pregunta de interés es ¿Cuál de las dos enfermedades causarán primero
+la muerte a un paciente? Sea \(T = mín (Y_1, Y_2)\). Suponga que
+\(Y_1 \sim exp(\lambda_1)\) y \(Y_2 \sim exp(\lambda_2)\) y que \(Y_1\)
+y \(Y_2\) son independientes. Bajo estas condiciones halle la f.d.p de
+la v.a. \(T\). ¿Qué se puede decir del hazard de T?
+
+Sea la función de densidad de probabilidad de una exponencial de una
+exponencial
+
+\[ f(t) = \lambda e^{-\lambda t}\]
+
+Entonces la función conjunta de \(T = mín (Y_1, Y_2)\) es
+
+\[ F(t) = P(min(Y1,Y2)<t) = 1- P(min(Y1,Y2)>t)\]
+\[ F(t) = 1-P(Y1>t \wedge Y2>t) = 1- (P(Y1>t) * P(Y2>t))\]
+\[ F(t) = 1 - \left( \int_{-\infty}^{t} \lambda_1 e^{-\lambda_1 t} dt * \int_{-\infty}^{t} \lambda_2 e^{-\lambda_2 t} dt \right)\]
+
+\[ F(t) = 1 - \lambda_1 \lambda_2 \left( \int_{-\infty}^{t} e^{-(\lambda_1 + \lambda_2) t} dt \right)\]
+\[ F(t) = 1 - \frac{\lambda_1 \lambda_2}{\lambda_1 + \lambda_2} e^{-(\lambda_1 + \lambda_2) t} \]
+
+Entonces la f.d.p de la v.a. T es
+
+\[f(t) = \frac{d}{dt} \left( 1 - \frac{\lambda_1 \lambda_2}{\lambda_1 + \lambda_2} e^{-(\lambda_1 + \lambda_2) t} \right)\]
+\[ f(t) = \lambda_1 \lambda_2 e^{-(\lambda_1 + \lambda_2) t}\]
+
+En términos de la función de Hazard la distribución conjunta encontrada
+se puede interpretar como que las enfermedades tienen un efecto aditivo,
+es decir, entre mas enfermedades tenga el paciente más probable es que
+fallezca temprano, las enfermedades entonces ``compiten'' para ver cual
+se manifiesta primero en el paciente.
+
+\section {4. }
+
+Pruebe lo siguiente si log \(T \sim normal(\mu, \sigma)\) entonces
+\(T \sim lognormal(\mu, \sigma)\).
+
+Sea \(Y=T\) entonces \(x=ln(t)\) y \(\frac{dx}{dy} = \frac{1}{x}\)
+
+Como
+\(f(x) = \frac{1} {\sqrt{2 \pi} \sigma} e^{- \frac{(t - \mu)^2} {2 \sigma^2}}\)
+para \(x>0\), usando el método de cambio de variable
+
+\[g(y) = f(ln(t)) | (1/t) | = f(x) = \frac{1} {\sqrt{2 \pi} \sigma} e^{- \frac{(ln(t) - \mu)^2} {2 \sigma^2}} \frac{1} {t}\]
+
+Entonces \(T \sim lognormal(\mu, \sigma)\)
+
+\section {5. }
+
+Pruebe lo siguiente si \(T \sim lognormal(\mu, \sigma)\) entonces
+log\(T \sim lognormal(\mu, \sigma)\).
+
+\section {6. }
+
+Pruebe lo siguiente si \(T \sim loglogis(\mu, \sigma)\) entonces
+log\(T \sim logis(\mu, \sigma)\).
+
+\section {7. }
+
+Pruebe lo siguiente si log\(T \sim logis(\mu, \sigma)\) entonces
+\(T \sim loglogis(\mu, \sigma)\).
 
 \end{document}

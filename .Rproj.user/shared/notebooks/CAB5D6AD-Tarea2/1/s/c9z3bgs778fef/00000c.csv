@@ -1,5 +1,0 @@
-"0",""
-"0","tabla <- cbind(criterioAIC, criterioBIC)"
-"0",""
-"0","kable(tabla[ ,c(1, 2, 4)]) %>%"
-"0","  kable_styling(full_width = F)"

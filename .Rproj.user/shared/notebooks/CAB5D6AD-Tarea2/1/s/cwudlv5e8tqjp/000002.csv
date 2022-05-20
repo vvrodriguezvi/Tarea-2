@@ -1,8 +1,0 @@
-"0","base <- read.csv(""ovarian.csv"")"
-"0",""
-"0","base$resid.ds <- as.factor(base$resid.ds)"
-"0",""
-"0","base$ecog.ps <- as.factor(base$ecog.ps)"
-"0",""
-"0","base$rx <- as.factor(base$rx)"
-"0",""
