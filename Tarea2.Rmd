@@ -261,9 +261,21 @@ summary(result3_logl)
 **Ahora se van a evaluar los modelos con el criterio AIC y BIC**
 
 ```{r}
-criterioAIC <- AIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
+#Renombrando modelos
+mod_exp_completo <- result1
+mod_logl_completo <- result1_logl
+mod_logn_completo <- result1_logn
+mod_exp_2 <- result2
+mod_logl_2 <- result2_logl
+mod_logn_2 <- result2_logn
+mod_exp_3 <- result3
+mod_logl_3 <- result3_logl
+mod_logn_3 <- result3_logn
+mod_exp_4 <- result4
 
-criterioBIC <- BIC(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)
+criterioAIC <- AIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
+
+criterioBIC <- BIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
 ```
 
 

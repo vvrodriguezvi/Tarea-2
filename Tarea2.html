@@ -492,9 +492,21 @@ n= 26 </code></pre>
 <li>Solo la variable <strong>age</strong> es significativa para ajustar el modelo de regresión usando la distribución loglogistic.</li>
 </ul>
 <p><strong>Ahora se van a evaluar los modelos con el criterio AIC y BIC</strong></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>criterioAIC <span class="ot">&lt;-</span> <span class="fu">AIC</span>(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>criterioBIC <span class="ot">&lt;-</span> <span class="fu">BIC</span>(result1, result1_logl, result1_logn, result2, result2_logl, result2_logn, result3, result3_logl, result3_logn, result4)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Renombrando modelos</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>mod_exp_completo <span class="ot">&lt;-</span> result1</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>mod_logl_completo <span class="ot">&lt;-</span> result1_logl</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>mod_logn_completo <span class="ot">&lt;-</span> result1_logn</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>mod_exp_2 <span class="ot">&lt;-</span> result2</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>mod_logl_2 <span class="ot">&lt;-</span> result2_logl</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>mod_logn_2 <span class="ot">&lt;-</span> result2_logn</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>mod_exp_3 <span class="ot">&lt;-</span> result3</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>mod_logl_3 <span class="ot">&lt;-</span> result3_logl</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>mod_logn_3 <span class="ot">&lt;-</span> result3_logn</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>mod_exp_4 <span class="ot">&lt;-</span> result4</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>criterioAIC <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>criterioBIC <span class="ot">&lt;-</span> <span class="fu">BIC</span>(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)</span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">cbind</span>(criterioAIC, criterioBIC)</span>
@@ -520,7 +532,7 @@ BIC
 <tbody>
 <tr>
 <td style="text-align:left;">
-result1
+mod_exp_completo
 </td>
 <td style="text-align:right;">
 5
@@ -534,7 +546,7 @@ result1
 </tr>
 <tr>
 <td style="text-align:left;">
-result1_logl
+mod_logl_completo
 </td>
 <td style="text-align:right;">
 6
@@ -548,7 +560,7 @@ result1_logl
 </tr>
 <tr>
 <td style="text-align:left;">
-result1_logn
+mod_logn_completo
 </td>
 <td style="text-align:right;">
 6
@@ -562,7 +574,7 @@ result1_logn
 </tr>
 <tr>
 <td style="text-align:left;">
-result2
+mod_exp_2
 </td>
 <td style="text-align:right;">
 4
@@ -576,7 +588,7 @@ result2
 </tr>
 <tr>
 <td style="text-align:left;">
-result2_logl
+mod_logl_2
 </td>
 <td style="text-align:right;">
 5
@@ -590,7 +602,7 @@ result2_logl
 </tr>
 <tr>
 <td style="text-align:left;">
-result2_logn
+mod_logn_2
 </td>
 <td style="text-align:right;">
 5
@@ -604,7 +616,7 @@ result2_logn
 </tr>
 <tr>
 <td style="text-align:left;">
-result3
+mod_exp_3
 </td>
 <td style="text-align:right;">
 3
@@ -618,7 +630,7 @@ result3
 </tr>
 <tr>
 <td style="text-align:left;">
-result3_logl
+mod_logl_3
 </td>
 <td style="text-align:right;">
 3
@@ -632,7 +644,7 @@ result3_logl
 </tr>
 <tr>
 <td style="text-align:left;">
-result3_logn
+mod_logn_3
 </td>
 <td style="text-align:right;">
 4
@@ -646,7 +658,7 @@ result3_logn
 </tr>
 <tr>
 <td style="text-align:left;">
-result4
+mod_exp_4
 </td>
 <td style="text-align:right;">
 2
