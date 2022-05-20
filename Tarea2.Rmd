@@ -1,6 +1,6 @@
 ---
 title: "Tarea 2 - Análisis de Supervivencia"
-author: "Juan Esteban Sánchez Pulgarín, añadir los otros nombres"
+author: "Andrea Serrano, Genaro Aristizabal Echeverri, Juan Esteban Sánchez Pulgarín, Valentina villamizar"
 output: 
   prettydoc::html_pretty:
     theme: architect
@@ -41,17 +41,17 @@ base$rx <- as.factor(base$rx)
 
 Se tiene una base de datos que proviene de un estudio de supervivencia en mujeres con cáncer de ovario, sometidas a dos tratamientos distintos, en el cual se tienen en cuenta siete variables que son: 
 
-   - futime (tiempo de supervivencia en días) 
+   - __futime__ (tiempo de supervivencia en días) 
    
-   - fustat (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla)
+   - **fustat** (estado de la censura  donde fustat = 0 es censurado, y = 1 es defunción, representa la falla)
    
-   - age (edad de la paciente en años)
+   - **age** (edad de la paciente en años)
    
-   - resid.ds (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si) 
+   - **resid.ds** (persistencia de la enfermedad tras el tratamiento 1 = No, 2 = Si) 
    
-   - rx (tratamiento a la que es sometida la paciente) 
+   - **rx** (tratamiento a la que es sometida la paciente) 
    
-   - ecog.ps (puntuación del test, ECOG = 1 es buen estado).
+   - **ecog.ps** (puntuación del test, ECOG = 1 es buen estado).
 
 Primero se mirará unos gráficos descriptivos
 
@@ -448,7 +448,7 @@ Entonces $Y = log(T) \sim N(\mu, \sigma)$
 
 Pruebe lo siguiente si $T \sim loglogis(\mu, \sigma)$ entonces log$T \sim logis(\mu, \sigma)$.
  
-Sea $y = log(t)$ entonces aplicando exponencial a ambos lados tenemos que $t = e^y$ y $\frac{dt}{dy} = e^y$.Y puesto que:
+Sea $y = log(t)$ entonces aplicando exponencial a ambos lados tenemos que $t = e^y$ y $\frac{dt}{dy} = e^y$. Y puesto que:
 
 $$ f(t) = \frac{1}{\sigma t}\frac{e^{\frac{logt- \mu}{\sigma}}}{(1+e^{\frac{logt- \mu}{\sigma}})^2}$$
 Aplicando la técnica de cambio de variable se tiene lo siguente:
