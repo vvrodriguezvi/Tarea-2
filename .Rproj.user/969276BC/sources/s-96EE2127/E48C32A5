@@ -1,28 +1,27 @@
 {
-    "id": "5D3CF66E",
-    "path": "~/GitHub/Tarea-2/Tarea2.Rmd",
+    "id": "E48C32A5",
+    "path": "C:/Users/57300/Documents/GitHub/Tarea-2/Tarea2.Rmd",
     "project_path": "Tarea2.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "3626265459",
     "contents": "",
     "dirty": false,
-    "created": 1653086242749.0,
+    "created": 1653065856938.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "439,0",
-        "scrollLine": "438",
-        "docOutlineVisible": "0",
-        "rmdVisualCollapsedChunks": ""
+        "cursorPosition": "2,64",
+        "scrollLine": "0",
+        "last_setup_crc32": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1653098626,
+    "lastKnownWriteTime": 1653066179,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1653098626371,
+    "last_content_update": 1653066179717,
     "read_only": false,
     "read_only_alternatives": []
 }
