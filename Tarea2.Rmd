@@ -1,6 +1,10 @@
 ---
 title: "Tarea 2 - Análisis de Supervivencia"
-author: "Andrea Serrano Santos, Genaro Alfonso Aristizabal Echeverri, Juan Esteban Sánchez Pulgarín, Valentina Vanessa Rodriguez Villamizar"
+author: 
+- "Andrea Serrano Santos"
+- "Genaro Alfonso Aristizabal Echeverri"
+- "Juan Esteban Sánchez Pulgarín"
+- "Valentina Vanessa Rodriguez Villamizar"
 date: '20 de Mayo de 2022'
 output: pdf_document
 ---
@@ -59,11 +63,15 @@ g1 <- ggplot(base, aes(x = futime, group = rx, color = rx, fill = rx))+
   geom_density(alpha = 0.4)+
   geom_vline(xintercept = means1[1], size = 0.9, color = "purple", alpha = 0.54)+
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
-  geom_text(aes(x = means1[1]+150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
-  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y=0.00075), size = 3.5, col = "blue")
+  geom_text(aes(x = means1[1]+150, label = paste0("Mean\n", means1[1]), y = 0.0005), 
+            size = 3.5, col = "red")+
+  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y=0.00075), 
+            size = 3.5, col = "blue")
 g2 <- ggplot(base, aes(x = rx, y = futime, group = rx, color = rx, fill = rx))+
   geom_boxplot(alpha = 0.4)+
-  stat_summary(aes(x = rx, y = futime, group = rx, color = rx), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
+  stat_summary(aes(x = rx, y = futime, group = rx, color = rx), fun = mean, 
+               geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", 
+               position = "identity")
 plot_grid(g1, g2)
 ```
 
@@ -78,11 +86,15 @@ g3 <-ggplot(base, aes( x = futime, group = ecog.ps, color = ecog.ps, fill = ecog
   geom_density(alpha = 0.4) +
   geom_vline(xintercept = means1[1], size = 0.9, color = "purple", alpha = 0.54)+
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
-  geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
-  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), size = 3.5, col = "blue")
+  geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), 
+            size = 3.5, col = "red")+
+  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), 
+            size = 3.5, col = "blue")
 g4 <- ggplot(base, aes(x = ecog.ps, y = futime, group = ecog.ps, color = ecog.ps, fill = ecog.ps))+
   geom_boxplot(alpha = 0.4)+
-  stat_summary(aes(x = ecog.ps, y = futime, group = ecog.ps, color = ecog.ps), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
+  stat_summary(aes(x = ecog.ps, y = futime, group = ecog.ps, color = ecog.ps), fun = mean, 
+               geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", 
+               position = "identity")
 plot_grid(g3, g4)
 ```
 De los gráficos anteriores se observa que la distribución del tiempo de supervivencia frente a la puntación del test del paciente presenta un leve cambio, pero las cajas de los boxplots no se traslapan demasiado, por lo tanto, se podría pensar que la influencia de la puntación del test no es estadísticamente significativa.
@@ -96,11 +108,16 @@ g5 <-ggplot(base, aes(x = futime, group = resid.ds, color = resid.ds, fill = res
   geom_density(alpha = 0.4)+
   geom_vline(xintercept = means1[1], size = 0.9, color = "purple", alpha = 0.54)+
   geom_vline(xintercept = means1[2], size = 0.9, color = "red", alpha = 0.54)+
-  geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), size = 3.5, col = "red")+
-  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), size = 3.5, col = "blue")
-g6 <- ggplot(base, aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds, fill = resid.ds))+
+  geom_text(aes(x = means1[1] + 150, label = paste0("Mean\n", means1[1]), y = 0.0005), 
+            size = 3.5, col = "red")+
+  geom_text(aes(x = means1[2] - 120, label = paste0("Mean\n", means1[2]), y = 0.00075), 
+            size = 3.5, col = "blue")
+g6 <- ggplot(base, aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds, 
+                       fill = resid.ds))+
   geom_boxplot(alpha = 0.4)+
-  stat_summary(aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds), fun = mean, geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", position = "identity")
+  stat_summary(aes(x = resid.ds, y = futime, group = resid.ds, color = resid.ds), fun = mean, 
+               geom = "point", shape = 20, size = 4, color = "yellow", fill = "red", 
+               position = "identity")
 plot_grid(g5, g6)
 ```
 
@@ -117,7 +134,8 @@ Se ajusta un primer modelo de regresión con distribución exponencial y con tod
 
 ```{r}
 #Modelo exponencial con todas las variables
-result1 <- survreg(Surv(futime, fustat) ~ age + resid.ds + rx + ecog.ps, dist = "exponential", data = base) 
+result1 <- survreg(Surv(futime, fustat) ~ age + resid.ds + rx + ecog.ps, dist = "exponential", 
+                   data = base) 
 summary(result1)
 ```
 
@@ -233,8 +251,10 @@ mod_exp_3 <- result3
 mod_logl_3 <- result3_logl
 mod_logn_3 <- result3_logn
 mod_exp_4 <- result4
-criterioAIC <- AIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
-criterioBIC <- BIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
+criterioAIC <- AIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, 
+                   mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
+criterioBIC <- BIC(mod_exp_completo, mod_logl_completo, mod_logn_completo, mod_exp_2, mod_logl_2, 
+                   mod_logn_2, mod_exp_3, mod_logl_3, mod_logn_3, mod_exp_4)
 ```
 
 
@@ -333,12 +353,14 @@ $$H_0~:S_1(t) = S_2(t) \\ H_1~:S_1(t) \neq S_2(t)$$
 
 Para realizarlo se construira un intervalo de confianza 
 
-$$\hat{\beta_j} \pm z_{1 - \alpha/2} \widehat{SE(\hat{B_j})} \\ 
-Luego: ~~~~~~~~~~~~~~~~~~~~ \\
--0.829 \pm z_{0.975}0.418 \\
--0.829 \pm 1.959964\times0.418 \\ 
--0.829 \pm 0.819265 \\
-(-1.648265,~-0.009735)$$
+$$\hat{\beta_j} \pm z_{1 - \alpha/2} \widehat{SE(\hat{B_j})}$$
+
+Luego:
+
+$$-0.829 \pm z_{0.975}0.418$$
+$$-0.829 \pm 1.959964\times0.418$$
+$$-0.829 \pm 0.819265$$
+$$(-1.648265,~-0.009735)$$
 
 Como el intervalo no contiene al cero, entonces, con una confianza del 95% se muestra que hay suficiente evidencia para rechazar $H_0$, es decir que la supervivencia del grupo 1 es diferente a la supervivencia del grupo 2, por lo tanto, pertenecer a un grupo u otro, o sea, tener un tumor de bajo grado presenta un tiempo de supervivencia diferente a uno de alto grado. 
 
@@ -420,12 +442,14 @@ $$g(y) = f(e^y)e^y \\
 
 Pruebe lo siguiente si log$T \sim logis(\mu, \sigma)$ entonces $T \sim loglogis(\mu, \sigma)$.
 
+Sea $Y=T$ entonces $x=ln(t)$ y $\frac{dx}{dy} = \frac{1}{t}$
 
+Como $f(x) = \frac{1}{\sigma} \phi_{logis}(\frac{t-\mu}{\sigma})$ ,para $-\infty < t <\infty$
 
+Usando el método de cambio de variable
 
+$$g(y) = f(ln(t)) | (1/t) | = f(x) = f(x) = \frac{1}{\sigma} \phi_{logis} \left( \frac{ln(t)-\mu}{\sigma} \right) \frac{1} {t}$$
 
-
-
-
+Entonces $T \sim loglogis(\mu, \sigma)$
 
 
